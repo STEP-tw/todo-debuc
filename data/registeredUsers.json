@@ -1,0 +1,12 @@
+[
+  {
+    "userName": "guest",
+    "password": "randomkeys",
+    "todoLists": []
+  },
+  {
+    "userName": "admin",
+    "password": "password",
+    "todoLists": []
+  }
+]

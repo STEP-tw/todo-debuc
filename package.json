@@ -1,0 +1,23 @@
+{
+  "name": "todo_app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/STEP-tw/todo-debuc.git"
+  },
+  "author": "Debarun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/STEP-tw/todo-debuc/issues"
+  },
+  "homepage": "https://github.com/STEP-tw/todo-debuc#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^4.1.0"
+  }
+}

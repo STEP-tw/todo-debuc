@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Create Todo</title>
+    <link rel="stylesheet" href="/css/index.css">
+  </head>
+  <body>
+    <h1>
+      <a href="./home.html"><<</a>TODO
+    </h1>
+    <hr>
+    <a id="logout" href="/logout">Log Out</a>
+    <form action="/createTodo" method="post">
+      Title:<input type="text" name="title"><br>
+      Description:<textarea name="description" rows="8" cols="80"></textarea><br>
+      <button type="button" onclick="addTodoItem">Add Todo Item</button>
+      <ul>
+
+      </ul>
+    </form>
+  </body>
+</html>

@@ -13,5 +13,16 @@ let getContentHeader = function(filepath,header){
   return header[extension];
 }
 
+let saveDatabase = function(username,todo){
+  let allUsers = getAllRegisteredUsers();
+  let user = allUsers.find(u=>{
+    return u.userName == username;
+  });
+  user.todoLists.push(todo);
+  allUsers = JSON.stringify(allUsers,null,2);
+  fs.writeFileSync('./data/registeredUsers.json',allUsers,'utf8');
+}
+
 exports.getAllRegisteredUsers = getAllRegisteredUsers;
 exports.getContentHeader = getContentHeader;
+exports.saveDatabase = saveDatabase;

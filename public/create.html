@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Create Todo</title>
     <link rel="stylesheet" href="/css/master.css">
+    <script src="scripts/create.js" charset="utf-8"></script>
   </head>
   <body>
     <h1>
@@ -14,10 +15,11 @@
     <form action="/createTodo" method="post">
       Title:<input type="text" name="title"><br>
       Description:<textarea name="description" rows="8" cols="80"></textarea><br>
-      <button type="button" onclick="addTodoItem">Add Todo Item</button>
-      <ul>
+      <button type="button" onclick="addTodoItem()">Add Todo Item</button>
+      <ul id="list">
 
       </ul>
+      <input type="submit">
     </form>
   </body>
 </html>

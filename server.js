@@ -3,11 +3,12 @@ const fs = require('fs');
 const WebApp = require('./webapp');
 const timeStamp = require('./time.js').timeStamp;
 const util = require('./util.js');
-const PORT = 9900;
+const PORT = 9000;
 
 let toS = o=>JSON.stringify(o,null,2);
 
 let registered_users = util.getAllRegisteredUsers();
+let user_buffer = {};
 
 let app = WebApp.create();
 
@@ -62,7 +63,7 @@ let redirectLoggedInUserToHome = (req,res)=>{
     res.redirect('/home.html');
 }
 
-app.use(logRequest);
+// app.use(logRequest);
 app.use(loadUser);
 app.use(redirectLoggedInUserToHome);
 
@@ -71,7 +72,6 @@ app.get('/',(req,res)=>{
 });
 
 app.post('/login',(req,res)=>{
-  console.log(req.body);
   let user = registered_users.find(u=>{
     return u.userName==req.body.userName && u.password==req.body.password;
   });
@@ -80,10 +80,10 @@ app.post('/login',(req,res)=>{
     res.redirect('./index.html');
     return;
   }
+  user_buffer = user;
   let sessionid = new Date().getTime();
   res.setHeader('Set-Cookie',`sessionid=${sessionid}`);
   user.sessionid = sessionid;
-  req.user_buffer = user;
   res.redirect('./home.html');
 });
 
@@ -104,6 +104,28 @@ app.get('/logout',(req,res)=>{
   res.setHeader('Set-Cookie',[`logInFailed=false,Expires=${new Date(1).toUTCString()}`,`sessionid=0,Expires=${new Date(1).toUTCString()}`]);
   delete req.user.sessionid;
   res.redirect('./index.html');
+});
+
+app.get('/getTodo',(req,res)=>{
+  res.write(JSON.stringify(user_buffer));
+  res.end();
+});
+
+app.post('/createTodo',(req,res)=>{
+  let todo = {};
+  let oldData = JSON.stringify(user_buffer,null,2);
+  let user = user_buffer.userName;
+  let title = req.body.title;
+  let fileLink = `./data/userTodos/${user}/${title}.json`
+  if(!fs.existsSync(`./data/userTodos/${user}`)){
+    fs.mkdirSync(`./data/userTodos/${user}`);
+  }
+  fs.writeFileSync(fileLink,JSON.stringify(req.body));
+  todo.title = title;
+  todo.fileLink = fileLink;
+  user_buffer.todoLists.push(todo);
+  util.saveDatabase(user,todo);
+  res.redirect('./home.html');
 });
 
 app.postProcess(serveFile);

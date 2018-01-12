@@ -13,18 +13,5 @@ let getContentHeader = function(filepath,header){
   return header[extension];
 }
 
-// let determineContentForUser = function(req,data){
-//   let template = "";
-//   if(!req.user){
-//     template = fs.readFileSync('./templates/notLoggedIn.templates','utf8');
-//   }else{
-//     template = fs.readFileSync('./templates/loggedIn.templates','utf8');
-//     template = template.replace('username',`${req.user.userName}`);
-//   }
-//   data = data.replace('template',template);
-//   return data;
-// }
-
 exports.getAllRegisteredUsers = getAllRegisteredUsers;
 exports.getContentHeader = getContentHeader;
-// exports.determineContentForUser = determineContentForUser;

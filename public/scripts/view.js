@@ -10,8 +10,9 @@ let reqListener = function(){
   todoData.todo.forEach((todoItem)=>{
     let list = document.createElement('input');
     list.type = 'checkbox';
-    list.innerText = todoItem;
-    div.appendChild(list)
+    div.appendChild(list);
+    div.append(todoItem);
+    div.appendChild(document.createElement('br'));
   });
 }
 

@@ -7,11 +7,6 @@
   {
     "userName": "admin",
     "password": "password",
-    "todoLists": [
-      {
-        "title": "a",
-        "fileLink": "./data/userTodos/admin/a.json"
-      }
-    ]
+    "todoLists": []
   }
 ]

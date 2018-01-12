@@ -53,7 +53,6 @@ let handleProcess = function(req,res,processor){
   });
 }
 const main = function(req,res){
-  console.log(req.headers);
   res.redirect = redirect.bind(res);
   req.urlIsOneOf = urlIsOneOf.bind(req);
   req.cookies = parseCookies(req.headers.cookie||'');

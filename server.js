@@ -71,7 +71,7 @@ let redirectLoggedInUserToHome = (req,res)=>{
   }
 }
 
-app.use(logRequest);
+// app.use(logRequest);
 app.use(loadUser);
 app.use(redirectLoggedInUserToHome);
 
@@ -150,7 +150,7 @@ app.get('/home.html',(req,res)=>{
 
 app.get('/view.html',(req,res)=>{
   res.setHeader('Content-type','text/html');
-  res.write(fs.readFileSync('./public/home.html'));
+  res.write(fs.readFileSync('./public/view.html'));
   res.end();
 });
 

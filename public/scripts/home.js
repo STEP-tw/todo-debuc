@@ -3,7 +3,7 @@ let reqListener = function() {
   let todo = document.getElementById('todoLists');
   userDetails.todoLists.forEach((todoList)=>{
     let ref = document.createElement('a');
-    ref.href = './view.html';
+    ref.href = `/${todoList.title}`;
     ref.innerText = todoList.title;
     todo.appendChild(ref);
   });
@@ -12,7 +12,7 @@ let reqListener = function() {
 const getAllTodo = function(){
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", reqListener);
-  oReq.open("GET", `/index.html`);
+  oReq.open("GET", `/getTodo`);
   oReq.send();
 }
 

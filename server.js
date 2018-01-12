@@ -9,6 +9,7 @@ let toS = o=>JSON.stringify(o,null,2);
 
 let registered_users = util.getAllRegisteredUsers();
 let user_buffer = {};
+let current_file = '';
 
 let app = WebApp.create();
 
@@ -39,7 +40,7 @@ let loadUser = (req,res)=>{
   if(sessionid && user){
     req.user = user;
   }
-};
+}
 
 let handleRequest = function(statusCode,res,dataToWrite){
   res.statusCode = statusCode;
@@ -49,26 +50,33 @@ let handleRequest = function(statusCode,res,dataToWrite){
 
 let serveFile = function(req,res){
   let url = './public'+req.url;
+  let path = `./data/userTodos/${user_buffer.userName}/${req.url}.json`;
   if(fs.existsSync(url)){
     let data = fs.readFileSync(url);
     res.setHeader('Content-Type',util.getContentHeader(url,header));
     handleRequest(200,res,data);
     return;
   }
+  if(fs.existsSync(path)){
+    current_file += path;
+    res.redirect('/view.html');
+    return;
+  }
   handleRequest(404,res,'<h1>File Not Found!<h1>');
 }
 
 let redirectLoggedInUserToHome = (req,res)=>{
-  if(req.url=='/login' && req.user)
+  if(req.url=='/login' && req.user){
     res.redirect('/home.html');
+  }
 }
 
-// app.use(logRequest);
+app.use(logRequest);
 app.use(loadUser);
 app.use(redirectLoggedInUserToHome);
 
 app.get('/',(req,res)=>{
-  res.redirect('./index.html');
+  res.redirect('/index.html');
 });
 
 app.post('/login',(req,res)=>{
@@ -77,14 +85,14 @@ app.post('/login',(req,res)=>{
   });
   if(!user) {
     res.setHeader('Set-Cookie',`logInFailed=true`);
-    res.redirect('./index.html');
+    res.redirect('/index.html');
     return;
   }
   user_buffer = user;
   let sessionid = new Date().getTime();
   res.setHeader('Set-Cookie',`sessionid=${sessionid}`);
   user.sessionid = sessionid;
-  res.redirect('./home.html');
+  res.redirect('/home.html');
 });
 
 app.get('/index.html',(req,res)=>{
@@ -125,7 +133,31 @@ app.post('/createTodo',(req,res)=>{
   todo.fileLink = fileLink;
   user_buffer.todoLists.push(todo);
   util.saveDatabase(user,todo);
-  res.redirect('./home.html');
+  res.redirect('/home.html');
+});
+
+app.get('/create.html',(req,res)=>{
+  res.setHeader('Content-type','text/html');
+  res.write(fs.readFileSync('./public/create.html'));
+  res.end();
+});
+
+app.get('/home.html',(req,res)=>{
+  res.setHeader('Content-type','text/html');
+  res.write(fs.readFileSync('./public/home.html'));
+  res.end();
+});
+
+app.get('/view.html',(req,res)=>{
+  res.setHeader('Content-type','text/html');
+  res.write(fs.readFileSync('./public/home.html'));
+  res.end();
+});
+
+app.get('/viewTodo',(req,res)=>{
+  let todo = fs.readFileSync(current_file);
+  res.write(todo);
+  res.end();
 });
 
 app.postProcess(serveFile);

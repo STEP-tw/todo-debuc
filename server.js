@@ -66,14 +66,21 @@ let serveFile = function(req,res){
 }
 
 let redirectLoggedInUserToHome = (req,res)=>{
-  if(req.url=='/login' && req.user){
+  if(req.url=='/index.html' && req.user){
     res.redirect('/home.html');
   }
 }
 
-// app.use(logRequest);
+// let redirectLoggedOutUserToLogin = (req,res)=>{
+//   if(!req.user && !req.url.includes('index')){
+//     res.redirect('/index.html');
+//   }
+// }
+
+app.use(logRequest);
 app.use(loadUser);
 app.use(redirectLoggedInUserToHome);
+// app.use(redirectLoggedOutUserToLogin);
 
 app.get('/',(req,res)=>{
   res.redirect('/index.html');
@@ -90,7 +97,7 @@ app.post('/login',(req,res)=>{
   }
   user_buffer = user;
   let sessionid = new Date().getTime();
-  res.setHeader('Set-Cookie',`sessionid=${sessionid}`);
+  res.setHeader('Set-Cookie',[`logInFailed=false`,`sessionid=${sessionid}`]);
   user.sessionid = sessionid;
   res.redirect('/home.html');
 });
@@ -98,10 +105,7 @@ app.post('/login',(req,res)=>{
 app.get('/index.html',(req,res)=>{
   let msg = '';
   let login = fs.readFileSync('./public/index.html','utf8');
-  if(req.user) {
-    res.redirect('./home.html');
-    return;
-  }
+  if(req.cookies.logInFailed) msg='Wrong username or password';
   login = login.replace('message',msg);
   res.setHeader('Content-type','text/html');
   res.write(login);
@@ -109,8 +113,9 @@ app.get('/index.html',(req,res)=>{
 });
 
 app.get('/logout',(req,res)=>{
-  res.setHeader('Set-Cookie',[`logInFailed=false,Expires=${new Date(1).toUTCString()}`,`sessionid=0,Expires=${new Date(1).toUTCString()}`]);
+  res.setHeader('Set-Cookie',[`logInFailed=false; Max-Age=5`,`sessionid=0; MAx-Age=5`]);
   delete req.user.sessionid;
+  delete req.user.logInFailed;
   res.redirect('./index.html');
 });
 

@@ -6,6 +6,7 @@ let reqListener = function() {
     ref.href = `/${todoList.title}`;
     ref.innerText = todoList.title;
     todo.appendChild(ref);
+    todo.appendChild(document.createElement('br'));
   });
 }
 

@@ -7,6 +7,15 @@
   {
     "userName": "admin",
     "password": "password",
-    "todoLists": []
+    "todoLists": [
+      {
+        "title": "CleanHome",
+        "fileLink": "./data/userTodos/admin/CleanHome.json"
+      },
+      {
+        "title": "clean",
+        "fileLink": "./data/userTodos/admin/clean.json"
+      }
+    ]
   }
 ]

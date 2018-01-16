@@ -1,14 +1,13 @@
 class User {
-  constructor(username,password) {
-    this.user = username;
-    this.password = password;
+  constructor(username) {
+    this.username = username;
     this.todoLists = [];
   }
   isSameUser(givenUsername) {
-    return this.user==givenUsername;
+    return this.username==givenUsername;
   }
-  isSamePassword(givenPassword) {
-    return this.password==givenPassword;
+  getUsername(){
+    return this.username;
   }
   addTodo(todo){
     this.todoLists.push(todo);

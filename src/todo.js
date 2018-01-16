@@ -1,13 +1,5 @@
 let Item = require('../src/todoItem.js');
 
-let popElement = function(list,element) {
-  let count = 0;
-  while(list[count]!=element){
-    count++;
-  }
-  list.splice(count,1);
-}
-
 class Todo {
   constructor(title,description) {
     this.title = title;
@@ -34,7 +26,7 @@ class Todo {
   }
   removeItem(itemObjective){
     let item = this.findItem(itemObjective);
-    if(item) popElement(this.items,item);
+    if(item) this.items.splice(this.items.indexOf(item),1);
   }
   markItemAsDone(itemObjective){
     let item = this.findItem(itemObjective);
@@ -46,7 +38,7 @@ class Todo {
   }
   getItemStatus(itemObjective){
     let item = this.findItem(itemObjective);
-    return item.status;
+    return item.isDone;
   }
 }
 module.exports = Todo;

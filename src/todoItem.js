@@ -1,19 +1,19 @@
 class Item {
   constructor(objective) {
     this.objective = objective;
-    this.isDone = false;
+    this._isDone = false;
   }
   getObjective(){
     return this.objective;
   }
-  get status(){
-    return this.isDone;
+  get isDone(){
+    return this._isDone;
   }
   get markAsDone(){
-    this.isDone = true;
+    this._isDone = true;
   }
   get markAsUndone(){
-    this.isDone = false;
+    this._isDone = false;
   }
 }
 module.exports = Item;

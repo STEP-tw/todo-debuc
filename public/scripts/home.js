@@ -1,12 +1,12 @@
 let reqListener = function() {
   let userDetails = JSON.parse(this.responseText);
-  let todo = document.getElementById('todoLists');
-  userDetails.todoLists.forEach((todoList)=>{
-    let ref = document.createElement('a');
-    ref.href = `/${todoList.title}`;
-    ref.innerText = todoList.title;
-    todo.appendChild(ref);
-    todo.appendChild(document.createElement('br'));
+  let todoDiv = document.getElementById('todoLists');
+  userDetails.todoLists.forEach((todo)=>{
+    let reference = document.createElement('a');
+    reference.href = `/${todo.title}`;
+    reference.innerText = todo.title;
+    todoDiv.appendChild(reference);
+    todoDiv.appendChild(document.createElement('br'));
   });
 }
 

@@ -7,7 +7,7 @@ let Todo = require('../src/todo.js');
 describe('User', () => {
   let user;
   beforeEach(()=>{
-    user = new User('debarun','password');
+    user = new User('debarun');
   });
   describe('#isSameUser', () => {
     it('should return true if given name is same as username', () => {
@@ -15,15 +15,6 @@ describe('User', () => {
     });
     it('should return false if given name is same as username', () => {
       assert.isNotOk(user.isSameUser('debu'));
-    });
-  });
-
-  describe('#isSamePassword', () => {
-    it('should return true if given password is same as user password', () => {
-      assert.isOk(user.isSamePassword('password'));
-    });
-    it('should return false if given password is same as user password', () => {
-      assert.isNotOk(user.isSamePassword('failword'));
     });
   });
 

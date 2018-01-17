@@ -26,14 +26,23 @@ let getAllRegisteredUsers = function(){
   return allUsers;
 }
 
-let getContentHeader = function(filepath,header){
+let getContentHeader = function(filepath){
+  let header = {
+    html: 'text/html',
+    txt: 'text/plain',
+    css: 'text/css',
+    gif: 'image/gif',
+    jpg: 'image/jpg',
+    js: 'application/javascript',
+    pdf: 'application/pdf'
+  }
   let extension = filepath.split('.')[2]||'html';
   return header[extension];
 }
 
-let saveDatabase = function(allUsers){
+let saveDatabase = function(allUsers,pathToStore){
   allUsers = JSON.stringify(allUsers,null,2);
-  fs.writeFileSync('./data/registeredUsers.json',allUsers,'utf8');
+  fs.writeFileSync(pathToStore,allUsers,'utf8');
 }
 
 exports.getAllRegisteredUsers = getAllRegisteredUsers;

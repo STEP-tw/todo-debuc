@@ -7,11 +7,12 @@ let reqListener = function(){
   para.innerText = todoData.description;
   div.appendChild(heading);
   div.appendChild(para);
-  todoData.todo.forEach((todoItem)=>{
+  todoData.items.forEach((todoItem)=>{
     let list = document.createElement('input');
     list.type = 'checkbox';
+    if(todoItem._isDone) list.checked = true;
     div.appendChild(list);
-    div.append(todoItem);
+    div.append(todoItem.objective);
     div.appendChild(document.createElement('br'));
   });
 }

@@ -2,11 +2,15 @@ const chai = require('chai');
 const assert = chai.assert;
 
 let request = require('./requestSimulator.js');
-process.env.COMMENT_STORE = "./testStore.json";
 let app = require('../app.js');
 let th = require('./testHelper.js');
+process.env.DATA_STORE = "./data/testStore.json";
 
 describe('app',()=>{
+  let loggedInUser;
+  beforeEach(()=>{
+    loggedInUser = {username:'admin',sessionid:12345};
+  });
   describe('GET /bad',()=>{
     it('responds with 404',done=>{
       request(app,{method:'GET',url:'/bad'},(res)=>{
@@ -27,22 +31,25 @@ describe('app',()=>{
   });
 
   describe('GET /login',()=>{
-    it('serves the login page',done=>{
+    it('serves the login page',()=>{
       request(app,{method:'GET',url:'/login'},res=>{
         th.status_is_ok(res);
         th.body_contains(res,'Login:');
         th.body_does_not_contain(res,'Wrong username or password');
         th.should_not_have_cookie(res,'message');
-        done();
       });
     });
-    it('serves the login page with message for a failed login',done=>{
+    it('serves the login page with message for a failed login',()=>{
       request(app,{method:'GET',url:'/login',headers:{'cookie':'message=Wrong username or password'}},res=>{
         th.status_is_ok(res);
         th.body_contains(res,'Login:');
         th.body_contains(res,'Wrong username or password');
         th.should_not_have_cookie(res,'message');
-        done();
+      });
+    });
+    it('redirects to homepage if user is already logged in',()=>{
+      request(app,{method:'GET',url:'/login',user:loggedInUser},res=>{
+        th.should_be_redirected_to(res,'/home');
       });
     });
   });
@@ -73,20 +80,74 @@ describe('app',()=>{
     });
   });
 
-  describe.skip('GET /home',()=>{
-    it('serves the homepage',()=>{
+  describe('GET /home',()=>{
+    it('serves the homepage if the user is logged in',()=>{
+      request(app,{method:'GET',url:'/home',headers:{'cookie':'sessionid=12345'},user:loggedInUser},res=>{
+        th.status_is_ok(res);
+        th.body_contains(res,'Log Out');
+      });
+    });
+    it('redirects to login if the user is not logged in',()=>{
       request(app,{method:'GET',url:'/home'},res=>{
-
+        th.should_be_redirected_to(res,'/login');
       });
     });
   });
 
-  describe.skip('POST /submitForm',()=>{
-    it('serves the javascript source',done=>{
-      request(app,{method:'POST',url:'/submitForm',body:'name=Foo&comment=Faa'},res=>{
-        th.should_be_redirected_to(res,'/guestBook');
-        done();
-      })
-    })
-  })
-})
+  describe('GET /create',()=>{
+    it('serves the create page if user is logged in',()=>{
+      request(app,{method:'GET',url:'/create',headers:{'cookie':'sessionid=12345'},user:loggedInUser},res=>{
+        th.status_is_ok(res);
+        th.body_contains(res,'Log Out');
+      });
+    });
+    it('redirects to login if the user is not logged in',()=>{
+      request(app,{method:'GET',url:'/create'},res=>{
+        th.should_be_redirected_to(res,'/login');
+      });
+    });
+  });
+
+  describe('POST /create',()=>{
+    it('redirects to homepage',()=>{
+      let todo = 'title=todo&description=demo&todo=a&todo=b';
+      request(app,{method:'POST',url:'/create',user:loggedInUser,body:todo}, res=>{
+        th.should_be_redirected_to(res,'/home');
+      });
+    });
+  });
+
+  describe('GET /todo-sort', () => {
+    it('redirects to view page',()=>{
+      request(app,{method:'GET',url:'/todo-sort',user:loggedInUser},res=>{
+        th.should_be_redirected_to(res,'/view');
+      });
+    });
+    it('responds with 404',()=>{
+      request(app,{method:'GET',url:'/todo-sort'},res=>{
+        assert.equal(res.statusCode,404);
+      });
+    });
+  });
+
+  describe('GET /viewTodo', () => {
+    it('returns the todo', () => {
+      request();
+    });
+  });
+
+  describe('GET /logout', () => {
+    it('redirects to login page and have expiring cookie',()=>{
+      request(app,{method:'GET',url:'/logout',user:loggedInUser},res=>{
+        th.should_be_redirected_to(res,'/login');
+        th.should_have_expiring_cookie(res,'sessionid','0');
+      });
+    });
+    it('redirects to login page and have no cookie',()=>{
+      request(app,{method:'GET',url:'/logout'},res=>{
+        th.should_be_redirected_to(res,'/login');
+        th.should_not_have_cookie(res,'sessionid');
+      });
+    });
+  });
+});

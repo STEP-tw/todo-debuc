@@ -26,7 +26,7 @@
         "items": [
           {
             "objective": "sort one.txt",
-            "_isDone": false
+            "_isDone": true
           },
           {
             "objective": "sort -n5 one.txt",
@@ -35,6 +35,6 @@
         ]
       }
     ],
-    "sessionid": 1516103027227
+    "sessionid": 1516189664422
   }
 }

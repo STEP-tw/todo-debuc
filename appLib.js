@@ -8,7 +8,6 @@ let lib = {};
 
 let toS = o=>JSON.stringify(o,null,2);
 let registered_users = util.getAllRegisteredUsers(process.env.DATA_STORE);
-let current_todo = {};
 
 let handleRequest = function(statusCode,res,dataToWrite){
   res.statusCode = statusCode;
@@ -47,6 +46,12 @@ lib.redirectLoggedOutUserToLogin = (req,res)=>{
   let urls = ['/home','/create','/view','/logout','/getTodo','/viewTodo'];
   if(!req.user && req.urlIsOneOf(urls)){
     res.redirect('/login');
+  }
+}
+
+lib.deleteCookie = (req,res)=>{
+  if(!req.urlIsOneOf(['/viewTodo','/view'])){
+    res.setHeader('Set-Cookie','currentTodo=0; Max-Age=0');
   }
 }
 
@@ -114,12 +119,20 @@ lib.viewTodoHandler = (req,res)=>{
   res.end();
 }
 
+lib.deleteTodoHandler = (req,res)=>{
+  let todoTitle = req.cookies.currentTodo;
+  let todo = registered_users[req.user].getMentionedTodo(todoTitle);
+  registered_users[req.user].deleteTodo(todo);
+  util.saveDatabase(registered_users,process.env.DATA_STORE);
+  res.redirect('/home');
+}
+
 lib.serveTodo = function(req,res){
   let url = req.url;
   if(url.split('-').shift()=='/todo' && req.user){
     let todoTitle = url.split('-').pop();
-    res.setHeader('Set-Cookie',`currentTodo=${todoTitle}; Max-Age=5`);
-    if(current_todo) res.redirect('/view');
+    res.setHeader('Set-Cookie',`currentTodo=${todoTitle}`);
+    res.redirect('/view');
   }
 }
 

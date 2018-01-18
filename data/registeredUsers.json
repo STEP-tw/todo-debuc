@@ -7,20 +7,6 @@
     "username": "admin",
     "todoLists": [
       {
-        "title": "uniq",
-        "description": "i have to make a uniq",
-        "items": [
-          {
-            "objective": "node one.txt",
-            "_isDone": false
-          },
-          {
-            "objective": "node -n5 one.txt",
-            "_isDone": false
-          }
-        ]
-      },
-      {
         "title": "sort",
         "description": "it is implementation of sort",
         "items": [
@@ -63,8 +49,18 @@
             "_isDone": true
           }
         ]
+      },
+      {
+        "title": "sfgg",
+        "description": "dgsgfjjsgdfj",
+        "items": [
+          {
+            "objective": "dsgfgjs",
+            "_isDone": false
+          }
+        ]
       }
     ],
-    "sessionid": 1516197653723
+    "sessionid": 1516277829743
   }
 }

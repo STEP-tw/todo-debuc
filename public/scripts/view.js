@@ -19,7 +19,7 @@ let editTodoItem = function(event){
   textBox.type = 'text';
   div.replaceChild(textBox,label);
 }
-// document.querySelector('#todo')
+
 let reqListener = function(){
   let count = 0;
   let todoData = JSON.parse(this.responseText);

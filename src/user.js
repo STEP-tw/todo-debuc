@@ -20,5 +20,8 @@ class User {
       return todo.getTitle() == todoTitle;
     });
   }
+  deleteTodo(todo) {
+    if(todo) this.todoLists.splice(this.todoLists.indexOf(todo),1);
+  }
 }
 module.exports = User;

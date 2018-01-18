@@ -5,6 +5,7 @@ const lib = require('./appLib.js');
 app.use(lib.loadUser);
 app.use(lib.redirectLoggedInUserToHome);
 app.use(lib.redirectLoggedOutUserToLogin);
+app.use(lib.deleteCookie);
 app.use(lib.preventDirectViewpageAccess);
 app.get('/',lib.landingPageHandler);
 app.get('/login',lib.loginPageHandler);
@@ -13,6 +14,7 @@ app.get('/logout',lib.logoutHandler);
 app.get('/getTodo',lib.todoRequestHandler);
 app.post('/create',lib.createTodoHandler);
 app.get('/viewTodo',lib.viewTodoHandler);
+app.get('/deleteTodo',lib.deleteTodoHandler);
 app.postProcess(lib.serveTodo);
 app.postProcess(lib.serveStatic);
 

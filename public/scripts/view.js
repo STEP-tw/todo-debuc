@@ -1,19 +1,42 @@
-let reqListener = function(){
-  let todoData = JSON.parse(this.responseText);
+let createElement = function(elementType,innerText=''){
+  let element = document.createElement(elementType);
+  element.innerText = innerText;
+  return element;
+}
+
+let appendChild = function(listOfElements,nodeToAppend){
+  listOfElements.forEach((element)=>{
+    nodeToAppend.appendChild(element);
+  });
+}
+
+let editTodoItem = function(event){
+  let id = event.target.id;
   let div = document.getElementById('todo');
-  let heading = document.createElement('h2');
-  heading.innerText = todoData.title;
-  let para = document.createElement('p');
-  para.innerText = todoData.description;
-  div.appendChild(heading);
-  div.appendChild(para);
+  let label = document.getElementById(id);
+  let textBox = document.createElement('input');
+  textBox.value = label.innerText;
+  textBox.type = 'text';
+  div.replaceChild(textBox,label);
+}
+// document.querySelector('#todo')
+let reqListener = function(){
+  let count = 0;
+  let todoData = JSON.parse(this.responseText);
+  let div = document.querySelector('#todo');
+  let heading = createElement('h2',todoData.title);
+  let para = createElement('p',todoData.description);
+  appendChild([heading,para],div);
   todoData.items.forEach((todoItem)=>{
-    let list = document.createElement('input');
+    let list = createElement('input');
     list.type = 'checkbox';
+    list.id = count;
     if(todoItem._isDone) list.checked = true;
-    div.appendChild(list);
-    div.append(todoItem.objective);
-    div.appendChild(document.createElement('br'));
+    let label = createElement('label',todoItem.objective);
+    label.id = `label${count}`;
+    label.ondblclick = editTodoItem;
+    appendChild([list,label,document.createElement('br')],div);
+    count++;
   });
 }
 

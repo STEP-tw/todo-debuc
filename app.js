@@ -5,6 +5,7 @@ const lib = require('./appLib.js');
 app.use(lib.loadUser);
 app.use(lib.redirectLoggedInUserToHome);
 app.use(lib.redirectLoggedOutUserToLogin);
+app.use(lib.preventDirectViewpageAccess);
 app.get('/',lib.landingPageHandler);
 app.get('/login',lib.loginPageHandler);
 app.post('/login',lib.loginHandler);

@@ -9,7 +9,7 @@ process.env.DATA_STORE = "./data/testStore.json";
 describe('app',()=>{
   let loggedInUser;
   beforeEach(()=>{
-    loggedInUser = {username:'admin',sessionid:12345};
+    loggedInUser = 'admin';
   });
   describe('GET /bad',()=>{
     it('responds with 404',done=>{
@@ -110,14 +110,14 @@ describe('app',()=>{
 
   describe('POST /create',()=>{
     it('redirects to homepage',()=>{
-      let todo = 'title=todo&description=demo&todo=a&todo=b';
+      let todo = 'title=test&description=demo&todo=a&todo=b';
       request(app,{method:'POST',url:'/create',user:loggedInUser,body:todo}, res=>{
         th.should_be_redirected_to(res,'/home');
       });
     });
   });
 
-  describe('GET /todo-sort', () => {
+  describe('GET /todo-sort',()=>{
     it('redirects to view page',()=>{
       request(app,{method:'GET',url:'/todo-sort',user:loggedInUser},res=>{
         th.should_be_redirected_to(res,'/view');
@@ -130,9 +130,38 @@ describe('app',()=>{
     });
   });
 
-  describe('GET /viewTodo', () => {
-    it('returns the todo', () => {
-      request();
+  describe('GET /view',()=>{
+    it('serves the todo if currentTodo cookie and user both are present',()=>{
+      request(app,{method:'GET',url:'/view',user:loggedInUser, headers:{'cookie':'currentTodo=sort'}},res=>{
+        th.status_is_ok(res);
+        th.body_contains(res,'Log Out');
+        th.body_contains(res,'Edit');
+      });
+    });
+    it('redirects to homepage if currentTodo cookie is present but user is not',()=>{
+      request(app,{method:'GET',url:'/view',user:loggedInUser},res=>{
+        th.should_be_redirected_to(res,'/home');
+      });
+    });
+    it('redirects to login if currentTodo cookie and user both are not present',()=>{
+      request(app,{method:'GET',url:'/view'},res=>{
+        th.should_be_redirected_to(res,'/login');
+      });
+    });
+  });
+
+  describe('GET /viewTodo',()=>{
+    it('returns the todo if currentTodo cookie present',()=>{
+      request(app,{method:'GET',url:'/viewTodo',user:loggedInUser, headers:{'cookie':'currentTodo=sort'}},res=>{
+        th.status_is_ok(res);
+        th.body_contains(res,'sort one.txt');
+      });
+    });
+    it('redirects to homepage if cookie has no currentTodo',()=>{
+      request(app,{method:'GET',url:'/viewTodo'},res=>{
+        console.log(res);
+        th.should_be_redirected_to(res,'/login');
+      });
     });
   });
 

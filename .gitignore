@@ -3,3 +3,4 @@ data/testStore.json
 *.log
 .DS_Store
 todo.todo
+.gitignore

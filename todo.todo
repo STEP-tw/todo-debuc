@@ -3,7 +3,7 @@ Features:
 user should
   ✔ Log in to their account @done(2018-01-17 17:26)
   ✔ Add one or more to-do list(s) @done(2018-01-17 17:26)
-  ☐ View their to-do list(s)
+  ✔ View their to-do list(s) @done(2018-01-17 18:51)
   ☐ Edit a to-do list
   ☐ Delete a to-do list
   ☐ Add one or more to-do items to each to-do list

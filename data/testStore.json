@@ -26,7 +26,7 @@
         "items": [
           {
             "objective": "sort one.txt",
-            "_isDone": false
+            "_isDone": true
           },
           {
             "objective": "sort -n5 one.txt",
@@ -36,6 +36,36 @@
       },
       {
         "title": "todo",
+        "description": "I have to implement all features of todo",
+        "items": [
+          {
+            "objective": "login",
+            "_isDone": true
+          },
+          {
+            "objective": "create todo",
+            "_isDone": true
+          },
+          {
+            "objective": "view todo",
+            "_isDone": false
+          },
+          {
+            "objective": "edit todo",
+            "_isDone": false
+          },
+          {
+            "objective": "delete todo",
+            "_isDone": false
+          },
+          {
+            "objective": "logout",
+            "_isDone": true
+          }
+        ]
+      },
+      {
+        "title": "test",
         "description": "demo",
         "items": [
           {
@@ -49,6 +79,6 @@
         ]
       }
     ],
-    "sessionid": 1516193844746
+    "sessionid": 1516274787460
   }
 }

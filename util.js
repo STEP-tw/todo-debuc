@@ -8,19 +8,19 @@ let toS = o=>JSON.stringify(o,null,2);
 
 let loadPrototypes = function(allUsers){
   Object.keys(allUsers).forEach((user)=>{
-    allUsers[user].__proto__ = new User('').__proto__;
+    allUsers[user].__proto__ = new User().__proto__;
     allUsers[user].todoLists.forEach((todo)=>{
-      todo.__proto__ = new Todo('','').__proto__;
+      todo.__proto__ = new Todo().__proto__;
       todo.items.forEach((todoItem)=>{
-        todoItem.__proto__ = new Item('').__proto__;
+        todoItem.__proto__ = new Item().__proto__;
       });
     });
   });
   return allUsers;
 }
 
-let getAllRegisteredUsers = function(){
-  let data = fs.readFileSync('./data/registeredUsers.json','utf8');
+let getAllRegisteredUsers = function(pathToFetch){
+  let data = fs.readFileSync(pathToFetch,'utf8');
   let allUsers = JSON.parse(data);
   allUsers = loadPrototypes(allUsers);
   return allUsers;

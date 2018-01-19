@@ -13,7 +13,7 @@ class User {
   addTodo(title,description){
     let todo = new Todo(title,description);
     this.todoLists.push(todo);
-    return todo
+    return todo;
   }
   get allTodos() {
     return this.todoLists;

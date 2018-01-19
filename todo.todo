@@ -4,12 +4,12 @@ user should
   ✔ Log in to their account @done(2018-01-17 17:26)
   ✔ Add one or more to-do list(s) @done(2018-01-17 17:26)
   ✔ View their to-do list(s) @done(2018-01-17 18:51)
-  ☐ Edit a to-do list
+  ✔ Edit a to-do list @done(2018-01-19 18:23)
   ✔ Delete a to-do list @done(2018-01-19 11:42)
   ☐ Add one or more to-do items to each to-do list
   ☐ Mark any to-do item as done
   ☐ Mark any to-do item as not done
-  ☐ Edit a to-do item
+  ✔ Edit a to-do item @done(2018-01-19 18:23)
   ☐ Delete a to-do item
   ✔ Log out of their account @done(2018-01-17 17:26)
  

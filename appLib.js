@@ -1,7 +1,7 @@
 const fs = require('fs');
 const timeStamp = require('./time.js').timeStamp;
 const util = require('./util.js');
-let Todo = require('./src/todo.js');
+let User = require('./src/user.js');
 process.env.DATA_STORE = './data/registeredUsers.json';
 
 let lib = {};
@@ -94,7 +94,7 @@ lib.logoutHandler = (req,res)=>{
 }
 
 lib.todoRequestHandler = (req,res)=>{
-  let allTodos = req.user.getAllTodos();
+  let allTodos = req.user.allTodos;
   res.write(JSON.stringify(allTodos));
   res.end();
 }

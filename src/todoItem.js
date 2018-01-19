@@ -6,6 +6,9 @@ class Item {
   getObjective(){
     return this.objective;
   }
+  updateObjective(objective){
+    this.objective=objective;
+  }
   get isDone(){
     return this._isDone;
   }

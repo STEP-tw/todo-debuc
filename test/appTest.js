@@ -21,11 +21,12 @@ describe('app',()=>{
   });
 
   describe('GET /',()=>{
-    it('redirects to index.html',done=>{
+    it('serves the login page',()=>{
       request(app,{method:'GET',url:'/'},(res)=>{
-        th.should_be_redirected_to(res,'/login');
-        assert.equal(res.body,"");
-        done();
+        th.status_is_ok(res);
+        th.body_contains(res,'Login:');
+        th.body_does_not_contain(res,'Wrong username or password');
+        th.should_not_have_cookie(res,'message');
       });
     });
   });
@@ -135,7 +136,7 @@ describe('app',()=>{
       request(app,{method:'GET',url:'/view',user:loggedInUser, headers:{'cookie':'currentTodo=sort'}},res=>{
         th.status_is_ok(res);
         th.body_contains(res,'Log Out');
-        th.body_contains(res,'Edit');
+        th.body_contains(res,'Delete');
       });
     });
     it('redirects to homepage if currentTodo cookie is present but user is not',()=>{

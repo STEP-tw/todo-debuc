@@ -50,7 +50,7 @@ lib.redirectLoggedOutUserToLogin = (req,res)=>{
 }
 
 lib.deleteCookie = (req,res)=>{
-  if(!req.urlIsOneOf(['/viewTodo','/view'])){
+  if(!req.urlIsOneOf(['/viewTodo','/view','/editTodo'])){
     res.setHeader('Set-Cookie','currentTodo=0; Max-Age=0');
   }
 }
@@ -62,7 +62,7 @@ lib.preventDirectViewpageAccess = (req,res)=>{
 }
 
 lib.landingPageHandler = (req,res)=>{
-  res.redirect('/login');
+  return lib.loginPageHandler(req,res);
 }
 
 lib.loginPageHandler = (req,res)=>{
@@ -100,7 +100,7 @@ lib.todoRequestHandler = (req,res)=>{
 
 lib.createTodoHandler = (req,res)=>{
   let todo = new Todo(req.body.title,req.body.description);
-  let items = req.body.todo;
+  let items = req.body.todo||[];
   if(typeof(items)!='string'){
     items.forEach((todoItem)=>{
       todo.addItem(todoItem);
@@ -108,7 +108,8 @@ lib.createTodoHandler = (req,res)=>{
   }else{
     todo.addItem(items);
   }
-  registered_users[req.user].addTodo(todo);  util.saveDatabase(registered_users,process.env.DATA_STORE);
+  registered_users[req.user].addTodo(todo);
+  util.saveDatabase(registered_users,process.env.DATA_STORE);
   res.redirect('/home');
 }
 
@@ -125,6 +126,24 @@ lib.deleteTodoHandler = (req,res)=>{
   registered_users[req.user].deleteTodo(todo);
   util.saveDatabase(registered_users,process.env.DATA_STORE);
   res.redirect('/home');
+}
+
+lib.editTodoHandler = (req,res)=>{
+  let todoTitle = req.cookies.currentTodo;
+  let todo = registered_users[req.user].getMentionedTodo(todoTitle);
+  let fieldToEdit = Object.keys(req.body)[0];
+  let action={
+    title : todo.updateTitle,
+    description:todo.updateDescription
+  };
+  if(fieldToEdit.includes('label')){
+    let id = fieldToEdit.match(/[0-9]+/)[0];
+    todo.updateItem(req.body[fieldToEdit],id);
+  }else{
+    action[fieldToEdit](req.body[fieldToEdit]);
+  }
+  util.saveDatabase(registered_users,process.env.DATA_STORE);
+  res.redirect('/view');
 }
 
 lib.serveTodo = function(req,res){

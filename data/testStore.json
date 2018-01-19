@@ -1,25 +1,12 @@
 {
   "guest": {
     "username": "guest",
-    "todoLists": []
+    "todoLists": [],
+    "sessionid": 1516347392949
   },
   "admin": {
     "username": "admin",
     "todoLists": [
-      {
-        "title": "uniq",
-        "description": "i have to make a uniq",
-        "items": [
-          {
-            "objective": "node one.txt",
-            "_isDone": false
-          },
-          {
-            "objective": "node -n5 one.txt",
-            "_isDone": false
-          }
-        ]
-      },
       {
         "title": "sort",
         "description": "it is implementation of sort",
@@ -65,6 +52,16 @@
         ]
       },
       {
+        "title": "sfgg",
+        "description": "dgsgfjjsgdfj",
+        "items": [
+          {
+            "objective": "dsgfgjs",
+            "_isDone": false
+          }
+        ]
+      },
+      {
         "title": "test",
         "description": "demo",
         "items": [
@@ -79,6 +76,6 @@
         ]
       }
     ],
-    "sessionid": 1516274787460
+    "sessionid": 1516357642277
   }
 }

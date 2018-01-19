@@ -1,5 +1,6 @@
-let createElement = function(elementType,innerText=''){
+let createElement = function(elementType,id,innerText=''){
   let element = document.createElement(elementType);
+  element.id = id;
   element.innerText = innerText;
   return element;
 }
@@ -10,34 +11,58 @@ let appendChild = function(listOfElements,nodeToAppend){
   });
 }
 
-let editTodoItem = function(event){
-  let id = event.target.id;
-  let div = document.getElementById('todo');
-  let label = document.getElementById(id);
+let addForm = function(element){
+  let form = document.createElement('form');
+  form.method = 'post';
+  form.action = '/editTodo';
   let textBox = document.createElement('input');
-  textBox.value = label.innerText;
+  textBox.value = element.innerText;
+  textBox.name = element.id;
   textBox.type = 'text';
-  div.replaceChild(textBox,label);
+  let submit = document.createElement('button');
+  submit.type = 'submit';
+  submit.innerText = 'save';
+  appendChild([textBox,submit],form);
+  return form;
 }
 
-let reqListener = function(){
+let editTodoElement = function(event){
+  let id = event.target.id;
+  let div = document.getElementById('todo');
+  let element = document.getElementById(id);
+  let form = addForm(element);
+  div.replaceChild(form,element);
+}
+
+let addEventOn = function(listOfElements,listener){
+  listOfElements.forEach((element)=>{
+    element.ondblclick = listener;
+  });
+}
+
+let addTodoItemInPage = function(todoItems,div){
   let count = 0;
-  let todoData = JSON.parse(this.responseText);
-  let div = document.querySelector('#todo');
-  let heading = createElement('h2',todoData.title);
-  let para = createElement('p',todoData.description);
-  appendChild([heading,para],div);
-  todoData.items.forEach((todoItem)=>{
-    let list = createElement('input');
+  todoItems.forEach((item)=>{
+    let list = createElement('input',count);
     list.type = 'checkbox';
-    list.id = count;
-    if(todoItem._isDone) list.checked = true;
-    let label = createElement('label',todoItem.objective);
-    label.id = `label${count}`;
-    label.ondblclick = editTodoItem;
+    if(item._isDone) list.checked = true;
+    let label = createElement('label',`label${count}`,item.objective);
+    label.ondblclick = editTodoElement;
     appendChild([list,label,document.createElement('br')],div);
     count++;
   });
+}
+
+let reqListener = function(){
+  let html = '';
+  let todoData = JSON.parse(this.responseText);
+  let div = document.querySelector('#todo');
+  let heading = createElement('h2','title',todoData.title);
+  let para = createElement('p','description',todoData.description);
+  addEventOn([heading,para],editTodoElement);
+  appendChild([heading,document.createElement('br')],div);
+  appendChild([para,document.createElement('br')],div);
+  addTodoItemInPage(todoData.items,div);
 }
 
 let viewTodo = function(){

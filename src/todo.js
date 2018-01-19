@@ -9,6 +9,15 @@ class Todo {
   getTitle(){
     return this.title;
   }
+  updateTitle(title){
+    this.title=title;
+  }
+  updateDescription(description){
+    this.description=description;
+  }
+  updateItem(objective,id){
+    this.items[id].updateObjective(objective);
+  }
   getDescription(){
     return this.description;
   }
@@ -19,25 +28,25 @@ class Todo {
     let item = new Item(objective);
     this.items.push(item);
   }
-  findItem(itemObjective){
+  findItem(objective){
     return this.items.find(function(todoItem){
-      return todoItem.objective == itemObjective;
+      return todoItem.objective == objective;
     });
   }
-  removeItem(itemObjective){
-    let item = this.findItem(itemObjective);
+  removeItem(objective){
+    let item = this.findItem(objective);
     if(item) this.items.splice(this.items.indexOf(item),1);
   }
-  markItemAsDone(itemObjective){
-    let item = this.findItem(itemObjective);
+  markItemAsDone(objective){
+    let item = this.findItem(objective);
     item.markAsDone;
   }
-  markItemAsUndone(itemObjective){
-    let item = this.findItem(itemObjective);
+  markItemAsUndone(objective){
+    let item = this.findItem(objective);
     item.markAsUndone;
   }
-  getItemStatus(itemObjective){
-    let item = this.findItem(itemObjective);
+  getItemStatus(objective){
+    let item = this.findItem(objective);
     return item.isDone;
   }
 }

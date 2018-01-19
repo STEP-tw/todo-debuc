@@ -11,6 +11,14 @@ describe('Todo', () => {
     todo = new Todo('Daily Routine','I have to maintain');
     item = new Item('fill timesheet');
   });
+  describe('#updateTitle',() => {
+    it('should change the current title', () => {
+      assert.equal(todo.getTitle(),'Daily Routine');
+      todo.addItem('fill timesheet');
+      todo.updateTitle('Change');
+      assert.equal(todo.getTitle(),'Change');
+    });
+  });
   describe('#addItem', () => {
     it('should add item in the todo', () => {
       assert.notDeepInclude(todo.getItems(),item);

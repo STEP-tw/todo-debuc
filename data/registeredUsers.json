@@ -9,14 +9,14 @@
     "todoLists": [
       {
         "title": "sort",
-        "description": "it is implementation of sort",
+        "description": "it is testing of todo",
         "items": [
           {
-            "objective": "sort one.txt",
+            "objective": "sort two",
             "_isDone": true
           },
           {
-            "objective": "sort -c5 one.txt",
+            "objective": "sort -n5 one.txt",
             "_isDone": false
           }
         ]
@@ -50,18 +50,8 @@
             "_isDone": true
           }
         ]
-      },
-      {
-        "title": "sfgg",
-        "description": "dgsgfjjsgdfj",
-        "items": [
-          {
-            "objective": "dsgfgjs",
-            "_isDone": false
-          }
-        ]
       }
     ],
-    "sessionid": 1516359342291
+    "sessionid": 1516362871617
   }
 }

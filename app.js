@@ -1,7 +1,7 @@
 const app = require('./webapp.js').create();
 const lib = require('./appLib.js');
 
-// app.use(lib.logRequest);
+app.use(lib.logRequest);
 app.use(lib.loadUser);
 app.use(lib.redirectLoggedInUserToHome);
 app.use(lib.redirectLoggedOutUserToLogin);
@@ -11,7 +11,7 @@ app.get('/',lib.landingPageHandler);
 app.get('/login',lib.loginPageHandler);
 app.post('/login',lib.loginHandler);
 app.get('/logout',lib.logoutHandler);
-app.get('/getTodo',lib.todoRequestHandler);
+app.get('/getAllTodo',lib.todoRequestHandler);
 app.post('/create',lib.createTodoHandler);
 app.get('/viewTodo',lib.viewTodoHandler);
 app.get('/deleteTodo',lib.deleteTodoHandler);

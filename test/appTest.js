@@ -1,5 +1,7 @@
 const chai = require('chai');
 const assert = chai.assert;
+const User=require('../src/user.js');
+const Todo=require('../src/todo.js');
 
 let request = require('./requestSimulator.js');
 let app = require('../app.js');
@@ -9,7 +11,7 @@ process.env.DATA_STORE = "./data/testStore.json";
 describe('app',()=>{
   let loggedInUser;
   beforeEach(()=>{
-    loggedInUser = 'admin';
+    loggedInUser = new User('admin');
   });
   describe('GET /bad',()=>{
     it('responds with 404',done=>{
@@ -111,7 +113,7 @@ describe('app',()=>{
 
   describe('POST /create',()=>{
     it('redirects to homepage',()=>{
-      let todo = 'title=test&description=demo&todo=a&todo=b';
+      let todo = 'title=test&description=demo&items=a&items=b';
       request(app,{method:'POST',url:'/create',user:loggedInUser,body:todo}, res=>{
         th.should_be_redirected_to(res,'/home');
       });
@@ -153,14 +155,14 @@ describe('app',()=>{
 
   describe('GET /viewTodo',()=>{
     it('returns the todo if currentTodo cookie present',()=>{
+      loggedInUser.addTodo('sort');
       request(app,{method:'GET',url:'/viewTodo',user:loggedInUser, headers:{'cookie':'currentTodo=sort'}},res=>{
         th.status_is_ok(res);
-        th.body_contains(res,'sort one.txt');
+        th.body_contains(res,'sort');
       });
     });
     it('redirects to homepage if cookie has no currentTodo',()=>{
       request(app,{method:'GET',url:'/viewTodo'},res=>{
-        console.log(res);
         th.should_be_redirected_to(res,'/login');
       });
     });

@@ -1,3 +1,4 @@
+let Todo = require('./todo.js');
 class User {
   constructor(username) {
     this.username = username;
@@ -9,8 +10,10 @@ class User {
   getUsername(){
     return this.username;
   }
-  addTodo(todo){
+  addTodo(title,description){
+    let todo = new Todo(title,description);
     this.todoLists.push(todo);
+    return todo
   }
   get allTodos() {
     return this.todoLists;
@@ -19,6 +22,14 @@ class User {
     return this.todoLists.find(function(todo){
       return todo.getTitle() == todoTitle;
     });
+  }
+  updateTodoTitle(title,newTitle){
+    let todo = this.getMentionedTodo(title);
+    todo.updateTitle(newTitle);
+  }
+  updateTodoDescription(title,newDescription){
+    let todo = this.getMentionedTodo(title);
+    todo.updateDescription(newDescription);
   }
   deleteTodo(todo) {
     if(todo) this.todoLists.splice(this.todoLists.indexOf(todo),1);

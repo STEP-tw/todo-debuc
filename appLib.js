@@ -32,7 +32,7 @@ lib.loadUser = (req,res)=>{
     return registered_users[u].sessionid==sessionid;
   });
   if(sessionid && user){
-    req.user = user;
+    req.user = registered_users[user];
   }
 }
 
@@ -94,13 +94,14 @@ lib.logoutHandler = (req,res)=>{
 }
 
 lib.todoRequestHandler = (req,res)=>{
-  res.write(JSON.stringify(registered_users[req.user]));
+  let allTodos = req.user.getAllTodos();
+  res.write(JSON.stringify(allTodos));
   res.end();
 }
 
 lib.createTodoHandler = (req,res)=>{
-  let todo = new Todo(req.body.title,req.body.description);
-  let items = req.body.todo||[];
+  let todo = req.user.addTodo(req.body.title,req.body.description);
+  let items = req.body.items||[];
   if(typeof(items)!='string'){
     items.forEach((todoItem)=>{
       todo.addItem(todoItem);
@@ -108,39 +109,43 @@ lib.createTodoHandler = (req,res)=>{
   }else{
     todo.addItem(items);
   }
-  registered_users[req.user].addTodo(todo);
+  req.user.addTodo(todo);
   util.saveDatabase(registered_users,process.env.DATA_STORE);
   res.redirect('/home');
 }
 
 lib.viewTodoHandler = (req,res)=>{
   let todoTitle = req.cookies.currentTodo;
-  let todo = registered_users[req.user].getMentionedTodo(todoTitle);
+  let todo = req.user.getMentionedTodo(todoTitle);
   res.write(JSON.stringify(todo));
   res.end();
 }
 
 lib.deleteTodoHandler = (req,res)=>{
   let todoTitle = req.cookies.currentTodo;
-  let todo = registered_users[req.user].getMentionedTodo(todoTitle);
-  registered_users[req.user].deleteTodo(todo);
+  let todo = req.user.getMentionedTodo(todoTitle);
+  req.user.deleteTodo(todo);
   util.saveDatabase(registered_users,process.env.DATA_STORE);
   res.redirect('/home');
 }
 
+let editTitle = function(req,res,todoTitle){
+  let newTitle = req.body.title;
+  req.user.updateTodoTitle(todoTitle,newTitle);
+  res.setHeader('Set-Cookie',`currentTodo=${newTitle}`);
+}
+
 lib.editTodoHandler = (req,res)=>{
   let todoTitle = req.cookies.currentTodo;
-  let todo = registered_users[req.user].getMentionedTodo(todoTitle);
+  let todo = req.user.getMentionedTodo(todoTitle);
   let fieldToEdit = Object.keys(req.body)[0];
-  let action={
-    title : todo.updateTitle,
-    description:todo.updateDescription
-  };
-  if(fieldToEdit.includes('label')){
+  if(fieldToEdit=='title'){
+    editTitle(req,res,todoTitle);
+  }else if(fieldToEdit=='description') {
+    req.user.updateTodoDescription(todoTitle,req.body.description);
+  }else{
     let id = fieldToEdit.match(/[0-9]+/)[0];
     todo.updateItem(req.body[fieldToEdit],id);
-  }else{
-    action[fieldToEdit](req.body[fieldToEdit]);
   }
   util.saveDatabase(registered_users,process.env.DATA_STORE);
   res.redirect('/view');

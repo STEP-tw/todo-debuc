@@ -54,7 +54,6 @@ let addTodoItemInPage = function(todoItems,div){
 }
 
 let reqListener = function(){
-  let html = '';
   let todoData = JSON.parse(this.responseText);
   let div = document.querySelector('#todo');
   let heading = createElement('h2','title',todoData.title);

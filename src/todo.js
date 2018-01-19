@@ -1,7 +1,7 @@
 let Item = require('../src/todoItem.js');
 
 class Todo {
-  constructor(title,description) {
+  constructor(title,description='') {
     this.title = title;
     this.description = description;
     this.items = [];

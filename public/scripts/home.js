@@ -1,7 +1,7 @@
 let reqListener = function() {
-  let userDetails = JSON.parse(this.responseText);
+  let todoLists = JSON.parse(this.responseText);
   let todoDiv = document.getElementById('todoLists');
-  userDetails.todoLists.forEach((todo)=>{
+  todoLists.forEach((todo)=>{
     let reference = document.createElement('a');
     reference.href = `/todo-${todo.title}`;
     reference.innerText = todo.title;
@@ -13,7 +13,7 @@ let reqListener = function() {
 const getAllTodo = function(){
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", reqListener);
-  oReq.open("GET", `/getTodo`);
+  oReq.open("GET", `/getAllTodo`);
   oReq.send();
 }
 

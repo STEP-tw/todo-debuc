@@ -192,13 +192,21 @@ lib.unmarkStatusHandler = (req,res)=>{
   util.saveDatabase(registered_users,process.env.DATA_STORE);
 };
 
+const redirectAccordingValidTodo = (req,res,todoTitle)=>{
+  if(req.user.getMentionedTodo(todoTitle)){
+    res.setHeader('Set-Cookie',`currentTodo=${todoTitle}`);
+    res.redirect('/view');
+  }else{
+    res.redirect('/home');
+  }
+}
+
 lib.serveTodo = function(req,res){
   let url = req.url;
   if(url.split('-').shift()=='/todo' && req.user){
     let todoTitle = url.split('-').pop();
     todoTitle = decodeURI(todoTitle);
-    res.setHeader('Set-Cookie',`currentTodo=${todoTitle}`);
-    res.redirect('/view');
+    redirectAccordingValidTodo(req,res,todoTitle);
   }
 }
 

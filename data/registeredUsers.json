@@ -8,20 +8,6 @@
     "username": "sayima",
     "todoLists": [
       {
-        "title": "sort",
-        "description": "testing description",
-        "items": [
-          {
-            "objective": "",
-            "_isDone": true
-          },
-          {
-            "objective": "sort -n5 one.txt",
-            "_isDone": false
-          }
-        ]
-      },
-      {
         "title": "todo",
         "description": "I have to implement all features of todo",
         "items": [
@@ -78,7 +64,22 @@
             "_isDone": false
           }
         ]
+      },
+      {
+        "title": "sort",
+        "description": "this is demo",
+        "items": [
+          {
+            "objective": "sort one.txt",
+            "_isDone": false
+          },
+          {
+            "objective": "sort -n5 one.txt",
+            "_isDone": false
+          }
+        ]
       }
-    ]
+    ],
+    "sessionid": 1516444275401
   }
 }

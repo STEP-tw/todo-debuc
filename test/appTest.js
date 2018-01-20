@@ -11,7 +11,7 @@ process.env.DATA_STORE = "./data/testStore.json";
 describe('app',()=>{
   let loggedInUser;
   beforeEach(()=>{
-    loggedInUser = new User('admin');
+    loggedInUser = new User('sayima');
   });
   describe('GET /bad',()=>{
     it('responds with 404',done=>{
@@ -64,32 +64,37 @@ describe('app',()=>{
   });
   describe('POST /login',()=>{
     it('redirects to home for valid user',done=>{
-      request(app,{method:'POST',url:'/login',body:'username=admin'},res=>{
+      request(app,{method:'POST',url:'/login',body:'username=sayima'},res=>{
         th.should_be_redirected_to(res,'/home');
         th.should_not_have_cookie(res,'message');
         done();
       });
     });
-    it('redirects to login with message for invalid user',done=>{
+    it('redirects to login with message for invalid user',()=>{
       request(app,{method:'POST',url:'/login',body:'username=badUser'},res=>{
         th.should_be_redirected_to(res,'/login');
         th.should_have_expiring_cookie(res,'message','Wrong username or password');
-        done();
       });
     });
   });
   describe('GET /getAllTodo', ()=> {
-    loggedInUser.addTodo('testing');
-    it('responds with json string', () => {
+    it('responds with json string if user is present', () => {
+      loggedInUser.addTodo('testing');
       request(app,{method:'GET',url:'/getAllTodo',user:loggedInUser},res=>{
         th.status_is_ok(res);
         th.body_contains(res,'title');
       });
     });
+    it('redirects to login if user is not present', () => {
+      request(app,{method:'GET',url:'/getAllTodo'},res=>{
+        console.log(res);
+        th.should_be_redirected_to(res,'/login');
+      });
+    });
   });
   describe('GET /home',()=>{
     it('serves the homepage if the user is logged in',()=>{
-      request(app,{method:'GET',url:'/home',headers:{'cookie':'sessionid=12345'},user:loggedInUser},res=>{
+      request(app,{method:'GET',url:'/home',user:loggedInUser},res=>{
         th.status_is_ok(res);
         th.body_contains(res,'Log Out');
       });
@@ -100,10 +105,9 @@ describe('app',()=>{
       });
     });
   });
-
   describe('GET /create',()=>{
     it('serves the create page if user is logged in',()=>{
-      request(app,{method:'GET',url:'/create',headers:{'cookie':'sessionid=12345'},user:loggedInUser},res=>{
+      request(app,{method:'GET',url:'/create',user:loggedInUser},res=>{
         th.status_is_ok(res);
         th.body_contains(res,'Log Out');
       });
@@ -114,29 +118,45 @@ describe('app',()=>{
       });
     });
   });
-
   describe('POST /create',()=>{
-    it('redirects to homepage',()=>{
+    it('redirects to homepage if user is logged in',()=>{
       let todo = 'title=test&description=demo&items=a&items=b';
       request(app,{method:'POST',url:'/create',user:loggedInUser,body:todo}, res=>{
         th.should_be_redirected_to(res,'/home');
       });
     });
+    it('redirects to login if user is not logged in', () => {
+      let todo = 'title=test&description=demo&items=a&items=b';
+      request(app,{method:'POST',url:'/create',body:todo}, res=>{
+        th.should_be_redirected_to(res,'/login');
+      });
+    });
   });
-
   describe('GET /todo-sort',()=>{
-    it('redirects to view page',()=>{
+    it('redirects to view page if user is logged in',()=>{
+      loggedInUser.addTodo('sort');
       request(app,{method:'GET',url:'/todo-sort',user:loggedInUser},res=>{
         th.should_be_redirected_to(res,'/view');
       });
     });
-    it('responds with 404',()=>{
+    it('responds with 404 if user is not logged in',()=>{
       request(app,{method:'GET',url:'/todo-sort'},res=>{
         assert.equal(res.statusCode,404);
       });
     });
   });
-
+  describe('GET /todo-badname', ()=> {
+    it('redirects to homepage if user is logged in', () => {
+      request(app,{method:'GET',url:'/todo-badname',user:loggedInUser},res=>{
+        th.should_be_redirected_to(res,'/home');
+      });
+    });
+    it('responds with 404 if user is not logged in',()=>{
+      request(app,{method:'GET',url:'/todo-badname'},res=>{
+        assert.equal(res.statusCode,404);
+      });
+    });
+  });
   describe('GET /view',()=>{
     it('serves the todo if currentTodo cookie and user both are present',()=>{
       request(app,{method:'GET',url:'/view',user:loggedInUser, headers:{'cookie':'currentTodo=sort'}},res=>{

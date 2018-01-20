@@ -21,7 +21,6 @@ describe('app',()=>{
       });
     });
   });
-
   describe('GET /',()=>{
     it('serves the login page',()=>{
       request(app,{method:'GET',url:'/'},(res)=>{
@@ -32,7 +31,6 @@ describe('app',()=>{
       });
     });
   });
-
   describe('GET /login',()=>{
     it('serves the login page',()=>{
       request(app,{method:'GET',url:'/login'},res=>{
@@ -56,7 +54,6 @@ describe('app',()=>{
       });
     });
   });
-
   describe('GET /index',()=>{
     it('responds with 404',done=>{
       request(app,{method:'GET',url:'/index'},(res)=>{
@@ -65,7 +62,6 @@ describe('app',()=>{
       });
     });
   });
-
   describe('POST /login',()=>{
     it('redirects to home for valid user',done=>{
       request(app,{method:'POST',url:'/login',body:'username=admin'},res=>{
@@ -82,7 +78,15 @@ describe('app',()=>{
       });
     });
   });
-
+  describe('GET /getAllTodo', ()=> {
+    loggedInUser.addTodo('testing');
+    it('responds with json string', () => {
+      request(app,{method:'GET',url:'/getAllTodo',user:loggedInUser},res=>{
+        th.status_is_ok(res);
+        th.body_contains(res,'title');
+      });
+    });
+  });
   describe('GET /home',()=>{
     it('serves the homepage if the user is logged in',()=>{
       request(app,{method:'GET',url:'/home',headers:{'cookie':'sessionid=12345'},user:loggedInUser},res=>{

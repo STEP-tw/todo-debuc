@@ -43,7 +43,7 @@ lib.redirectLoggedInUserToHome = (req,res)=>{
 }
 
 lib.redirectLoggedOutUserToLogin = (req,res)=>{
-  let urls = ['/home','/create','/view','/logout','/getTodo','/viewTodo'];
+  let urls = ['/home','/create','/view','/logout','/getTodo','/viewTodo','/getAllTodo','/deleteTodo'];
   if(!req.user && req.urlIsOneOf(urls)){
     res.redirect('/login');
   }

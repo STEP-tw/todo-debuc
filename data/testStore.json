@@ -56,16 +56,12 @@
         "description": "testing description",
         "items": [
           {
-            "objective": "testing item1",
-            "_isDone": false
-          },
-          {
             "objective": "testing item 2",
             "_isDone": false
           }
         ]
       }
     ],
-    "sessionid": 1516424458908
+    "sessionid": 1516425969641
   }
 }

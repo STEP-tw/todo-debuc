@@ -1,6 +1,6 @@
 const fs = require('fs');
 const timeStamp = require('./time.js').timeStamp;
-const util = require('./util.js');q
+const util = require('./util.js');
 let User = require('./src/user.js');
 process.env.DATA_STORE = './data/registeredUsers.json';
 
@@ -134,28 +134,34 @@ let editTitle = function(req,res,todoTitle){
   res.setHeader('Set-Cookie',`currentTodo=${newTitle}`);
 }
 
-let editTodoItem = function(req,res,todoTitle,label){
+let editTodoDescription = function(req,res,todoTitle) {
+  req.user.updateTodoDescription(todoTitle,req.body.description);
+}
+
+let editTodoItem = function(req,todo){
+  let label = Object.keys(req.body)[0];
   let item = req.body[label];
   let id = label.match(/[0-9]+/)[0];
   if(item){
-    todo.updateItem(req.body[fieldToEdit],id);
+    todo.updateItem(req.body[label],id);
   }else{
-
+    todo.removeItem(id);
   }
 }
+
 
 lib.editTodoHandler = (req,res)=>{
   let todoTitle = req.cookies.currentTodo;
   let todo = req.user.getMentionedTodo(todoTitle);
   let fieldToEdit = Object.keys(req.body)[0];
-  if(fieldToEdit=='title'){
-    editTitle(req,res,todoTitle);
-  }else if(fieldToEdit=='description') {
-    req.user.updateTodoDescription(todoTitle,req.body.description);
+  let action = {
+    title: editTitle,
+    description: editTodoDescription
+  };
+  if(fieldToEdit.includes('label')){
+    editTodoItem(req,todo);
   }else{
-    editTodoItem(req,res,todoTitle,fieldToEdit);
-    let id = fieldToEdit.match(/[0-9]+/)[0];
-    todo.updateItem(req.body[fieldToEdit],id);
+    action[fieldToEdit](req,res,todoTitle);
   }
   util.saveDatabase(registered_users,process.env.DATA_STORE);
   res.redirect('/view');

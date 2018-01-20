@@ -34,6 +34,10 @@
           {
             "objective": "logout",
             "_isDone": true
+          },
+          {
+            "objective": "the end",
+            "_isDone": true
           }
         ]
       },
@@ -90,6 +94,6 @@
         ]
       }
     ],
-    "sessionid": 1516450389177
+    "sessionid": 1516454067525
   }
 }

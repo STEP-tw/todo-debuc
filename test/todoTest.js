@@ -42,6 +42,12 @@ describe('Todo', () => {
       todo.addItem('have lunch');
       assert.deepEqual(todo.getItems(),expected);
     });
+    it('should not add item in the todo if it is null string.', () => {
+      let expected=[];
+      assert.deepEqual(todo.getItems(),[]);
+      todo.addItem('');
+      assert.deepEqual(todo.getItems(),expected);
+    });
   });
   describe('#getItems', ()=> {
     it('should give all the items', () => {
@@ -58,6 +64,7 @@ describe('Todo', () => {
       todo.updateItem('cool',0);
       assert.deepInclude(todo.getItems(),item);
     });
+
   });
   describe('#findItem', () => {
     it('should return the item which has same objective as given', () => {

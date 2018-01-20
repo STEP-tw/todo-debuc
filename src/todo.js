@@ -20,7 +20,7 @@ class Todo {
   }
   addItem(objective){
     let item = new Item(objective);
-    this.items.push(item);
+    if(objective) this.items.push(item);
   }
   getItems(){
     return this.items;

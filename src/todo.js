@@ -33,9 +33,8 @@ class Todo {
       return todoItem.objective == objective;
     });
   }
-  removeItem(objective){
-    let item = this.findItem(objective);
-    if(item) this.items.splice(this.items.indexOf(item),1);
+  removeItem(objectiveIndex){
+    this.items.splice(objectiveIndex,1);
   }
   markItemAsDone(objective){
     let item = this.findItem(objective);

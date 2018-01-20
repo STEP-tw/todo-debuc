@@ -135,6 +135,16 @@ let editTitle = function(req,res,todoTitle){
   res.setHeader('Set-Cookie',`currentTodo=${newTitle}`);
 }
 
+let editTodoItem = function(req,res,todoTitle,label){
+  let item = req.body[label];
+  let id = label.match(/[0-9]+/)[0];
+  if(item){
+    todo.updateItem(req.body[fieldToEdit],id);
+  }else{
+    
+  }
+}
+
 lib.editTodoHandler = (req,res)=>{
   let todoTitle = req.cookies.currentTodo;
   let todo = req.user.getMentionedTodo(todoTitle);
@@ -144,6 +154,7 @@ lib.editTodoHandler = (req,res)=>{
   }else if(fieldToEdit=='description') {
     req.user.updateTodoDescription(todoTitle,req.body.description);
   }else{
+    editTodoItem(req,res,todoTitle,fieldToEdit);
     let id = fieldToEdit.match(/[0-9]+/)[0];
     todo.updateItem(req.body[fieldToEdit],id);
   }

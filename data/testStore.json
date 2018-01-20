@@ -12,7 +12,7 @@
         "description": "testing description",
         "items": [
           {
-            "objective": "sort two",
+            "objective": "",
             "_isDone": true
           },
           {
@@ -52,6 +52,6 @@
         ]
       }
     ],
-    "sessionid": 1516367307988
+    "sessionid": 1516422346373
   }
 }

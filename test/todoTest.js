@@ -9,7 +9,7 @@ describe('Todo', () => {
   let item;
   beforeEach(()=>{
     todo = new Todo('Daily Routine','I have to maintain');
-    item = new Item('fill timesheet');
+    // item = new Item('fill timesheet');
   });
   describe('#updateTitle',() => {
     it('should change the current title', () => {
@@ -21,9 +21,12 @@ describe('Todo', () => {
   });
   describe('#addItem', () => {
     it('should add item in the todo', () => {
-      assert.notDeepInclude(todo.getItems(),item);
-      todo.addItem('fill timesheet');
-      assert.deepInclude(todo.getItems(),item);
+      let expected=[];
+      let item = new Item('have lunch');
+      expected.push(item);
+      assert.deepEqual(todo.getItems(),[]);
+      todo.addItem('have lunch');
+      assert.deepEqual(todo.getItems(),expected);
     });
   });
   describe('#findItem', () => {
@@ -36,10 +39,14 @@ describe('Todo', () => {
   });
   describe('#removeItem', () => {
     it('should remove item in the todo', () => {
-      todo.addItem('fill timesheet');
-      assert.deepInclude(todo.getItems(),item);
-      todo.removeItem('fill timesheet');
-      assert.notDeepInclude(todo.getItems(),item);
+      let expected=[];
+      let item = new Item('have lunch');
+      expected.push(item);
+      todo.addItem('have lunch');
+      assert.deepEqual(todo.getItems(),expected);
+      todo.removeItem('have lunch');
+      expected.pop();
+      assert.deepEqual(todo.getItems(),expected);
     });
   });
   describe('#markItemAsDone', () => {

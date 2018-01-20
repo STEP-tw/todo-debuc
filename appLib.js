@@ -1,6 +1,6 @@
 const fs = require('fs');
 const timeStamp = require('./time.js').timeStamp;
-const util = require('./util.js');
+const util = require('./util.js');q
 let User = require('./src/user.js');
 process.env.DATA_STORE = './data/registeredUsers.json';
 
@@ -109,7 +109,6 @@ lib.createTodoHandler = (req,res)=>{
   }else{
     todo.addItem(items);
   }
-  req.user.addTodo(todo);
   util.saveDatabase(registered_users,process.env.DATA_STORE);
   res.redirect('/home');
 }
@@ -141,7 +140,7 @@ let editTodoItem = function(req,res,todoTitle,label){
   if(item){
     todo.updateItem(req.body[fieldToEdit],id);
   }else{
-    
+
   }
 }
 
@@ -166,6 +165,7 @@ lib.serveTodo = function(req,res){
   let url = req.url;
   if(url.split('-').shift()=='/todo' && req.user){
     let todoTitle = url.split('-').pop();
+    todoTitle = decodeURI(todoTitle);
     res.setHeader('Set-Cookie',`currentTodo=${todoTitle}`);
     res.redirect('/view');
   }

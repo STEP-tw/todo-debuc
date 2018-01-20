@@ -9,7 +9,6 @@ describe('Todo', () => {
   let item;
   beforeEach(()=>{
     todo = new Todo('Daily Routine','I have to maintain');
-    // item = new Item('fill timesheet');
   });
   describe('#updateTitle',() => {
     it('should change the current title', () => {

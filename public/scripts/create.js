@@ -6,4 +6,3 @@ let addTodoItem = function(){
   list.appendChild(text);
   list.appendChild(document.createElement('br'));
 }
-  

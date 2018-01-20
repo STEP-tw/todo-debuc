@@ -10,12 +10,27 @@ describe('Todo', () => {
   beforeEach(()=>{
     todo = new Todo('Daily Routine','I have to maintain');
   });
+  describe('#getTitle', ()=> {
+    it('should give the title of the todo', () => {
+      assert.equal(todo.getTitle(),'Daily Routine');
+    });
+  });
   describe('#updateTitle',() => {
     it('should change the current title', () => {
       assert.equal(todo.getTitle(),'Daily Routine');
-      todo.addItem('fill timesheet');
       todo.updateTitle('Change');
       assert.equal(todo.getTitle(),'Change');
+    });
+  });
+  describe('#getDescription', ()=> {
+    it('should give the description of the todo', () => {
+      assert.equal(todo.getDescription(),'I have to maintain');
+    });
+  });
+  describe('#updateDescription', ()=> {
+    it('should change the current description', () => {
+      todo.updateDescription('');
+      assert.equal(todo.getDescription(),'');
     });
   });
   describe('#addItem', () => {
@@ -26,6 +41,22 @@ describe('Todo', () => {
       assert.deepEqual(todo.getItems(),[]);
       todo.addItem('have lunch');
       assert.deepEqual(todo.getItems(),expected);
+    });
+  });
+  describe('#getItems', ()=> {
+    it('should give all the items', () => {
+      let item = new Item('have lunch');
+      todo.addItem('have lunch');
+      assert.deepInclude(todo.getItems(),item);
+    });
+  });
+  describe('#updateItem', ()=> {
+    it('should update the objective of given item', () => {
+      let item = new Item('cool');
+      todo.addItem('have lunch');
+      assert.notDeepInclude(todo.getItems(),item);
+      todo.updateItem('cool',0);
+      assert.deepInclude(todo.getItems(),item);
     });
   });
   describe('#findItem', () => {
@@ -50,19 +81,21 @@ describe('Todo', () => {
   });
   describe('#markItemAsDone', () => {
     it('should return item status as true', () => {
+      let expected = {objective:'fill timesheet',_isDone:true}
       todo.addItem('fill timesheet');
-      assert.isNotOk(todo.getItemStatus('fill timesheet'));
+      assert.notDeepInclude(todo.getItems(),expected);
       todo.markItemAsDone(0);
-      assert.isOk(todo.getItemStatus('fill timesheet'));
+      assert.deepInclude(todo.getItems(),expected);
     });
   });
   describe('#markItemAsUndone', () => {
     it('should return item status as false', () => {
+      let expected = {objective:'fill timesheet',_isDone:false}
       todo.addItem('fill timesheet');
       todo.markItemAsDone(0);
-      assert.isOk(todo.getItemStatus('fill timesheet'));
+      assert.notDeepInclude(todo.getItems(),expected);
       todo.markItemAsUndone(0);
-      assert.isNotOk(todo.getItemStatus('fill timesheet'));
+      assert.deepInclude(todo.getItems(),expected);
     });
   });
 });

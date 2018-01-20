@@ -12,21 +12,21 @@ class Todo {
   updateTitle(title){
     this.title=title;
   }
-  updateDescription(description){
-    this.description=description;
-  }
-  updateItem(objective,id){
-    this.items[id].updateObjective(objective);
-  }
   getDescription(){
     return this.description;
   }
-  getItems(){
-    return this.items;
+  updateDescription(description){
+    this.description=description;
   }
   addItem(objective){
     let item = new Item(objective);
     this.items.push(item);
+  }
+  getItems(){
+    return this.items;
+  }
+  updateItem(objective,id){
+    this.items[id].updateObjective(objective);
   }
   findItem(objective){
     return this.items.find(function(todoItem){
@@ -41,10 +41,6 @@ class Todo {
   }
   markItemAsUndone(objectiveIndex){
     this.items[objectiveIndex].markAsUndone();
-  }
-  getItemStatus(objective){
-    let item = this.findItem(objective);
-    return item.isDone;
   }
 }
 module.exports = Todo;

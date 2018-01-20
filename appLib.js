@@ -183,6 +183,7 @@ lib.markStatusHandler = (req,res)=>{
   let todo = req.user.getMentionedTodo(todoTitle);
   todo.markItemAsDone(req.body.id);
   util.saveDatabase(registered_users,process.env.DATA_STORE);
+  res.redirect('/view');
 };
 
 lib.unmarkStatusHandler = (req,res)=>{
@@ -190,6 +191,7 @@ lib.unmarkStatusHandler = (req,res)=>{
   let todo = req.user.getMentionedTodo(todoTitle);
   todo.markItemAsUndone(req.body.id);
   util.saveDatabase(registered_users,process.env.DATA_STORE);
+  res.redirect('/view');
 };
 
 const redirectAccordingValidTodo = (req,res,todoTitle)=>{

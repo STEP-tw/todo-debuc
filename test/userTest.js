@@ -61,9 +61,17 @@ describe('User', () => {
   describe('#deleteTodo', ()=> {
     it('should delete the todo of given title', () => {
       let todo = user.addTodo('uniq');
+      assert.equal(user.allTodos.length,1);
       assert.deepInclude(user.allTodos,todo);
       user.deleteTodo('uniq')
-      assert.notDeepInclude(user.allTodos,todo);
+      assert.notEqual(user.allTodos.length,1);
+      assert.notDeepInclude(user.allTo dos,todo);
+    });
+    it('should not delete todo if the given title is wrong', () => {
+      let todo = user.addTodo('uniq');
+      assert.equal(user.allTodos.length,1);
+      user.deleteTodo('unique')
+      assert.equal(user.allTodos.length,1);
     });
   });
 });

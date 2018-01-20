@@ -33,7 +33,7 @@ class User {
   }
   deleteTodo(todoTitle) {
     let todo = this.getMentionedTodo(todoTitle);
-    this.todoLists.splice(this.todoLists.indexOf(todo),1);
+    if(todo) this.todoLists.splice(this.todoLists.indexOf(todo),1);
   }
 }
 module.exports = User;

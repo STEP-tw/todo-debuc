@@ -8,6 +8,23 @@ describe('todoItem', () => {
   beforeEach(()=>{
     item = new Item('fill timesheet');
   });
+  describe('#getObjective', ()=> {
+    it('should give the objective of the item', () => {
+      assert.equal(item.getObjective(),'fill timesheet');
+    });
+  });
+  describe('#updateObjective', ()=> {
+    it('should update the objective of the item', () => {
+      assert.notEqual(item.getObjective(),'updated');
+      item.updateObjective('updated');
+      assert.equal(item.getObjective(),'updated');
+    });
+  });
+  describe('#isDone', ()=> {
+    it('should give the status of item', () => {
+      assert.isNotOk(item.isDone);
+    });
+  });
   describe('#markAsDone', () => {
     it('should change the status of isDone true in todo item', () => {
       assert.isNotOk(item.isDone);

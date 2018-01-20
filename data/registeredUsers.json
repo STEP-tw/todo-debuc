@@ -78,6 +78,16 @@
             "_isDone": false
           }
         ]
+      },
+      {
+        "title": "todo",
+        "description": "it is copy of todo",
+        "items": [
+          {
+            "objective": "it will check duplication",
+            "_isDone": false
+          }
+        ]
       }
     ],
     "sessionid": 1516444275401

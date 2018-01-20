@@ -1,12 +1,14 @@
 let reqListener = function() {
+  let count = 0;
   let todoLists = JSON.parse(this.responseText);
   let todoDiv = document.getElementById('todoLists');
   todoLists.forEach((todo)=>{
     let reference = document.createElement('a');
-    reference.href = `/todo-${todo.title}`;
+    reference.href = `/todo-${count}`;
     reference.innerText = todo.title;
     todoDiv.appendChild(reference);
     todoDiv.appendChild(document.createElement('br'));
+    count++;
   });
 }
 

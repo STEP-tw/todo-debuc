@@ -52,7 +52,7 @@ lib.redirectLoggedOutUserToLogin = (req,res)=>{
 lib.deleteCookie = (req,res)=>{
   let urls = ['/viewTodo','/view','/editTodo','/additem','/mark','/unmark'];
   if(!req.urlIsOneOf(urls)){
-    res.setHeader('Set-Cookie','currentTodo=0; Max-Age=0');
+    res.setHeader('Set-Cookie','currentTodo=-1; Max-Age=0');
   }
 }
 
@@ -119,27 +119,26 @@ lib.createTodoHandler = (req,res)=>{
 }
 
 lib.viewTodoHandler = (req,res)=>{
-  let todoTitle = req.cookies.currentTodo;
-  let todo = req.user.getMentionedTodo(todoTitle);
+  let todoIndex = req.cookies.currentTodo;
+  let todo = req.user.getMentionedTodo(todoIndex);
   res.write(JSON.stringify(todo));
   res.end();
 }
 
 lib.deleteTodoHandler = (req,res)=>{
-  let todoTitle = req.cookies.currentTodo;
-  req.user.deleteTodo(todoTitle);
+  let todoIndex = req.cookies.currentTodo;
+  req.user.deleteTodo(todoIndex);
   util.saveDatabase(registered_users,process.env.DATA_STORE);
   res.redirect('/home');
 }
 
-let editTitle = function(req,res,todoTitle){
+let editTitle = function(req,res,todoIndex){
   let newTitle = req.body.title;
-  req.user.updateTodoTitle(todoTitle,newTitle);
-  res.setHeader('Set-Cookie',`currentTodo=${newTitle}`);
+  req.user.updateTodoTitle(todoIndex,newTitle);
 }
 
-let editTodoDescription = function(req,res,todoTitle) {
-  req.user.updateTodoDescription(todoTitle,req.body.description);
+let editTodoDescription = function(req,res,todoIndex) {
+  req.user.updateTodoDescription(todoIndex,req.body.description);
 }
 
 let editTodoItem = function(req,todo){
@@ -154,8 +153,8 @@ let editTodoItem = function(req,todo){
 }
 
 lib.editTodoHandler = (req,res)=>{
-  let todoTitle = req.cookies.currentTodo;
-  let todo = req.user.getMentionedTodo(todoTitle);
+  let todoIndex = req.cookies.currentTodo;
+  let todo = req.user.getMentionedTodo(todoIndex);
   let fieldToEdit = Object.keys(req.body)[0];
   let action = {
     title: editTitle,
@@ -164,39 +163,39 @@ lib.editTodoHandler = (req,res)=>{
   if(fieldToEdit.includes('label')){
     editTodoItem(req,todo);
   }else{
-    action[fieldToEdit](req,res,todoTitle);
+    action[fieldToEdit](req,res,todoIndex);
   }
   util.saveDatabase(registered_users,process.env.DATA_STORE);
   res.redirect('/view');
 }
 
 lib.addItemHandler=(req,res)=>{
-  let todoTitle = req.cookies.currentTodo;
-  let todo = req.user.getMentionedTodo(todoTitle);
+  let todoIndex = req.cookies.currentTodo;
+  let todo = req.user.getMentionedTodo(todoIndex);
   addTodoItem(req,todo);
   util.saveDatabase(registered_users,process.env.DATA_STORE);
   res.redirect('/view');
 }
 
 lib.markStatusHandler = (req,res)=>{
-  let todoTitle = req.cookies.currentTodo;
-  let todo = req.user.getMentionedTodo(todoTitle);
+  let todoIndex = req.cookies.currentTodo;
+  let todo = req.user.getMentionedTodo(todoIndex);
   todo.markItemAsDone(req.body.id);
   util.saveDatabase(registered_users,process.env.DATA_STORE);
   res.redirect('/view');
 };
 
 lib.unmarkStatusHandler = (req,res)=>{
-  let todoTitle = req.cookies.currentTodo;
-  let todo = req.user.getMentionedTodo(todoTitle);
+  let todoIndex = req.cookies.currentTodo;
+  let todo = req.user.getMentionedTodo(todoIndex);
   todo.markItemAsUndone(req.body.id);
   util.saveDatabase(registered_users,process.env.DATA_STORE);
   res.redirect('/view');
 };
 
-const redirectAccordingValidTodo = (req,res,todoTitle)=>{
-  if(req.user.getMentionedTodo(todoTitle)){
-    res.setHeader('Set-Cookie',`currentTodo=${todoTitle}`);
+const redirectAccordingValidTodo = (req,res,todoIndex)=>{
+  if(req.user.getMentionedTodo(todoIndex)){
+    res.setHeader('Set-Cookie',`currentTodo=${todoIndex}`);
     res.redirect('/view');
   }else{
     res.redirect('/home');
@@ -206,9 +205,8 @@ const redirectAccordingValidTodo = (req,res,todoTitle)=>{
 lib.serveTodo = function(req,res){
   let url = req.url;
   if(url.split('-').shift()=='/todo' && req.user){
-    let todoTitle = url.split('-').pop();
-    todoTitle = decodeURI(todoTitle);
-    redirectAccordingValidTodo(req,res,todoTitle);
+    let todoIndex = url.split('-').pop();
+    redirectAccordingValidTodo(req,res,todoIndex);
   }
 }
 

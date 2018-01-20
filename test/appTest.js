@@ -159,7 +159,7 @@ describe('app',()=>{
   });
   describe('GET /view',()=>{
     it('serves the todo if currentTodo cookie and user both are present',()=>{
-      request(app,{method:'GET',url:'/view',user:loggedInUser, headers:{'cookie':'currentTodo=sort'}},res=>{
+      request(app,{method:'GET',url:'/view',user:loggedInUser, headers:{'cookie':'currentTodo=0'}},res=>{
         th.status_is_ok(res);
         th.body_contains(res,'Log Out');
         th.body_contains(res,'Delete');
@@ -179,7 +179,7 @@ describe('app',()=>{
   describe('GET /viewTodo',()=>{
     it('returns the todo if currentTodo cookie present',()=>{
       loggedInUser.addTodo('sort');
-      request(app,{method:'GET',url:'/viewTodo',user:loggedInUser, headers:{'cookie':'currentTodo=sort'}},res=>{
+      request(app,{method:'GET',url:'/viewTodo',user:loggedInUser, headers:{'cookie':'currentTodo=0'}},res=>{
         th.status_is_ok(res);
         th.body_contains(res,'sort');
       });
@@ -193,12 +193,12 @@ describe('app',()=>{
   describe('GET /deleteTodo', ()=> {
     it('redirects to homepage if user is present', () => {
       loggedInUser.addTodo('sort');
-      request(app,{method:'GET',url:'/deleteTodo',headers:{'cookie':'currentTodo=sort'},user:loggedInUser},res=>{
+      request(app,{method:'GET',url:'/deleteTodo',headers:{'cookie':'currentTodo=0'},user:loggedInUser},res=>{
         th.should_be_redirected_to(res,'/home');
       });
     });
     it('redirects to login page if user is not present', () => {
-      request(app,{method:'GET',url:'/deleteTodo',headers:{'cookie':'currentTodo=sort'}},res=>{
+      request(app,{method:'GET',url:'/deleteTodo',headers:{'cookie':'currentTodo=0'}},res=>{
         th.should_be_redirected_to(res,'/login');
       });
     });
@@ -206,26 +206,26 @@ describe('app',()=>{
   describe('POST /editTodo', ()=> {
     it('edits the title and redirects to view', () => {
       loggedInUser.addTodo('sort');
-      request(app,{method:'POST',url:'/editTodo',headers:{'cookie':'currentTodo=sort'},body:'title=test',user:loggedInUser},res=>{
+      request(app,{method:'POST',url:'/editTodo',headers:{'cookie':'currentTodo=0'},body:'title=test',user:loggedInUser},res=>{
         th.should_be_redirected_to(res,'/view');
       });
     });
     it('edits the description and redirects to view', () => {
       loggedInUser.addTodo('sort');
-      request(app,{method:'POST',url:'/editTodo',headers:{'cookie':'currentTodo=sort'},body:'description=test',user:loggedInUser},res=>{
+      request(app,{method:'POST',url:'/editTodo',headers:{'cookie':'currentTodo=0'},body:'description=test',user:loggedInUser},res=>{
         th.should_be_redirected_to(res,'/view');
       });
     });
     it('edits the item and redirects to view', () => {
       let todo = loggedInUser.addTodo('sort');
       todo.addItem('source');
-      request(app,{method:'POST',url:'/editTodo',headers:{'cookie':'currentTodo=sort'},body:'label0=test',user:loggedInUser},res=>{
+      request(app,{method:'POST',url:'/editTodo',headers:{'cookie':'currentTodo=0'},body:'label0=test',user:loggedInUser},res=>{
         th.should_be_redirected_to(res,'/view');
       });
     });
     it('deletes the items and redirects to view if textbox is empty', () => {
       loggedInUser.addTodo('sort');
-      request(app,{method:'POST',url:'/editTodo',headers:{'cookie':'currentTodo=sort'},body:'label0=',user:loggedInUser},res=>{
+      request(app,{method:'POST',url:'/editTodo',headers:{'cookie':'currentTodo=0'},body:'label0=',user:loggedInUser},res=>{
         th.should_be_redirected_to(res,'/view');
       });
     });
@@ -233,7 +233,7 @@ describe('app',()=>{
   describe('POST /additem', ()=> {
     it('edits the mentioned fields and redirects to view', () => {
       loggedInUser.addTodo('sort');
-      request(app,{method:'POST',url:'/additem',headers:{'cookie':'currentTodo=sort'},body:'items=test',user:loggedInUser},res=>{
+      request(app,{method:'POST',url:'/additem',headers:{'cookie':'currentTodo=0'},body:'items=test',user:loggedInUser},res=>{
         th.should_be_redirected_to(res,'/view');
       });
     });
@@ -242,7 +242,7 @@ describe('app',()=>{
     it('edits the mentioned fields and redirects to view', () => {
       let todo = loggedInUser.addTodo('sort');
       todo.addItem('sample item');
-      request(app,{method:'POST',url:'/mark',headers:{'cookie':'currentTodo=sort'},body:'id=0',user:loggedInUser},res=>{
+      request(app,{method:'POST',url:'/mark',headers:{'cookie':'currentTodo=0'},body:'id=0',user:loggedInUser},res=>{
         th.should_be_redirected_to(res,'/view');
       });
     });
@@ -251,7 +251,7 @@ describe('app',()=>{
     it('edits the mentioned fields and redirects to view', () => {
       let todo = loggedInUser.addTodo('sort');
       todo.addItem('sample item');
-      request(app,{method:'POST',url:'/unmark',headers:{'cookie':'currentTodo=sort'},body:'id=0',user:loggedInUser},res=>{
+      request(app,{method:'POST',url:'/unmark',headers:{'cookie':'currentTodo=0'},body:'id=0',user:loggedInUser},res=>{
         th.should_be_redirected_to(res,'/view');
       });
     });

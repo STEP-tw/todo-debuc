@@ -37,7 +37,7 @@ describe('User', () => {
       let todo = {title:'sort',description:'implement sort',items:[]}
       user.addTodo('uniq','implement uniq');
       user.addTodo('sort','implement sort');
-      assert.deepEqual(user.getMentionedTodo('sort'),todo);
+      assert.deepEqual(user.getMentionedTodo(1),todo);
     });
   });
   describe('#updateTodoTitle', ()=> {
@@ -45,7 +45,7 @@ describe('User', () => {
       let expected = {title:'sort',description:'',items:[]};
       user.addTodo('uniq');
       assert.notDeepInclude(user.allTodos,expected);
-      user.updateTodoTitle('uniq','sort');
+      user.updateTodoTitle(0,'sort');
       assert.deepInclude(user.allTodos,expected);
     });
   });
@@ -54,7 +54,7 @@ describe('User', () => {
       let expected = {title:'uniq',description:'hi',items:[]};
       user.addTodo('uniq','');
       assert.notDeepInclude(user.allTodos,expected);
-      user.updateTodoDescription('uniq','hi');
+      user.updateTodoDescription(0,'hi');
       assert.deepInclude(user.allTodos,expected);
     });
   });
@@ -63,9 +63,9 @@ describe('User', () => {
       let todo = user.addTodo('uniq');
       assert.equal(user.allTodos.length,1);
       assert.deepInclude(user.allTodos,todo);
-      user.deleteTodo('uniq')
+      user.deleteTodo(0)
       assert.notEqual(user.allTodos.length,1);
-      assert.notDeepInclude(user.allTo dos,todo);
+      assert.notDeepInclude(user.allTodos,todo);
     });
     it('should not delete todo if the given title is wrong', () => {
       let todo = user.addTodo('uniq');

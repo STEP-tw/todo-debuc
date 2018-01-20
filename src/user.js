@@ -18,21 +18,19 @@ class User {
   get allTodos() {
     return this.todoLists;
   }
-  getMentionedTodo(todoTitle) {
-    return this.todoLists.find(function(todo){
-      return todo.getTitle() == todoTitle;
-    });
+  getMentionedTodo(todoIndex) {
+    return this.todoLists[todoIndex];
   }
-  updateTodoTitle(title,newTitle){
-    let todo = this.getMentionedTodo(title);
+  updateTodoTitle(index,newTitle){
+    let todo = this.getMentionedTodo(index);
     todo.updateTitle(newTitle);
   }
-  updateTodoDescription(title,newDescription){
-    let todo = this.getMentionedTodo(title);
+  updateTodoDescription(index,newDescription){
+    let todo = this.getMentionedTodo(index);
     todo.updateDescription(newDescription);
   }
-  deleteTodo(todoTitle) {
-    let todo = this.getMentionedTodo(todoTitle);
+  deleteTodo(todoIndex) {
+    let todo = this.getMentionedTodo(todoIndex);
     if(todo) this.todoLists.splice(this.todoLists.indexOf(todo),1);
   }
 }

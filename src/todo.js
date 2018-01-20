@@ -36,13 +36,11 @@ class Todo {
   removeItem(objectiveIndex){
     this.items.splice(objectiveIndex,1);
   }
-  markItemAsDone(objective){
-    let item = this.findItem(objective);
-    item.markAsDone;
+  markItemAsDone(objectiveIndex){
+    this.items[objectiveIndex].markAsDone();
   }
-  markItemAsUndone(objective){
-    let item = this.findItem(objective);
-    item.markAsUndone;
+  markItemAsUndone(objectiveIndex){
+    this.items[objectiveIndex].markAsUndone();
   }
   getItemStatus(objective){
     let item = this.findItem(objective);

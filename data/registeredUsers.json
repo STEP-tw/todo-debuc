@@ -35,15 +35,15 @@
           },
           {
             "objective": "view todo",
-            "_isDone": false
+            "_isDone": true
           },
           {
             "objective": "edit todo",
-            "_isDone": false
+            "_isDone": true
           },
           {
             "objective": "delete todo",
-            "_isDone": false
+            "_isDone": true
           },
           {
             "objective": "logout",

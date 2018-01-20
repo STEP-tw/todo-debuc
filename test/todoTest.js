@@ -52,16 +52,16 @@ describe('Todo', () => {
     it('should return item status as true', () => {
       todo.addItem('fill timesheet');
       assert.isNotOk(todo.getItemStatus('fill timesheet'));
-      todo.markItemAsDone('fill timesheet');
+      todo.markItemAsDone(0);
       assert.isOk(todo.getItemStatus('fill timesheet'));
     });
   });
   describe('#markItemAsUndone', () => {
     it('should return item status as false', () => {
       todo.addItem('fill timesheet');
-      todo.markItemAsDone('fill timesheet');
+      todo.markItemAsDone(0);
       assert.isOk(todo.getItemStatus('fill timesheet'));
-      todo.markItemAsUndone('fill timesheet');
+      todo.markItemAsUndone(0);
       assert.isNotOk(todo.getItemStatus('fill timesheet'));
     });
   });

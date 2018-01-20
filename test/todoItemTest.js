@@ -11,15 +11,15 @@ describe('todoItem', () => {
   describe('#markAsDone', () => {
     it('should change the status of isDone true in todo item', () => {
       assert.isNotOk(item.isDone);
-      item.markAsDone;
+      item.markAsDone();
       assert.isOk(item.isDone);
     });
   });
   describe('#markAsUndone', () => {
     it('should change the status of isDone false in todo item', () => {
-      item.markAsDone;
+      item.markAsDone();
       assert.isOk(item.isDone);
-      item.markAsUndone;
+      item.markAsUndone();
       assert.isNotOk(item.isDone);
     });
   });

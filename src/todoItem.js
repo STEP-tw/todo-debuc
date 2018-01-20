@@ -12,10 +12,10 @@ class Item {
   get isDone(){
     return this._isDone;
   }
-  get markAsDone(){
+  markAsDone(){
     this._isDone = true;
   }
-  get markAsUndone(){
+  markAsUndone(){
     this._isDone = false;
   }
 }

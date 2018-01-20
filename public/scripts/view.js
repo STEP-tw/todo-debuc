@@ -40,15 +40,25 @@ let addEventOn = function(listOfElements,listener){
   });
 }
 
+let changeStatus = function(event){
+  let id = event.target.id;
+  let checkBox = document.getElementById(id);
+  let url=checkBox.checked ?'/mark':'/unmark';
+  let oReq = new XMLHttpRequest();
+  oReq.open("POST",url);
+  oReq.send(`id=${id}`);
+}
+
 let addTodoItemInPage = function(todoItems,div){
   let count = 0;
   todoItems.forEach((item)=>{
-    let list = createElement('input',count);
-    list.type = 'checkbox';
-    if(item._isDone) list.checked = true;
+    let checkBox = createElement('input',count);
+    checkBox.type = 'checkbox';
+    checkBox.onclick = changeStatus;
+    if(item._isDone) checkBox.checked = true;
     let label = createElement('label',`label${count}`,item.objective);
     label.ondblclick = editTodoElement;
-    appendChild([list,label,document.createElement('br')],div);
+    appendChild([checkBox,label,document.createElement('br')],div);
     count++;
   });
 }
@@ -65,7 +75,7 @@ let reqListener = function(){
 }
 
 let viewTodo = function(){
-  var oReq = new XMLHttpRequest();
+  let oReq = new XMLHttpRequest();
   oReq.addEventListener("load", reqListener);
   oReq.open("GET", `/viewTodo`);
   oReq.send();

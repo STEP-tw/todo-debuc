@@ -4,3 +4,5 @@ data/testStore.json
 .DS_Store
 todo.todo
 .gitignore
+.nyc_output
+coverage/

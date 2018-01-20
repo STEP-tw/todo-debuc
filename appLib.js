@@ -127,8 +127,7 @@ lib.viewTodoHandler = (req,res)=>{
 
 lib.deleteTodoHandler = (req,res)=>{
   let todoTitle = req.cookies.currentTodo;
-  let todo = req.user.getMentionedTodo(todoTitle);
-  req.user.deleteTodo(todo);
+  req.user.deleteTodo(todoTitle);
   util.saveDatabase(registered_users,process.env.DATA_STORE);
   res.redirect('/home');
 }

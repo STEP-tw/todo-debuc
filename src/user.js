@@ -31,8 +31,9 @@ class User {
     let todo = this.getMentionedTodo(title);
     todo.updateDescription(newDescription);
   }
-  deleteTodo(todo) {
-    if(todo) this.todoLists.splice(this.todoLists.indexOf(todo),1);
+  deleteTodo(todoTitle) {
+    let todo = this.getMentionedTodo(todoTitle);
+    this.todoLists.splice(this.todoLists.indexOf(todo),1);
   }
 }
 module.exports = User;

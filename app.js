@@ -16,6 +16,7 @@ app.post('/create',lib.createTodoHandler);
 app.get('/viewTodo',lib.viewTodoHandler);
 app.get('/deleteTodo',lib.deleteTodoHandler);
 app.post('/editTodo',lib.editTodoHandler);
+app.post('/additem',lib.addItemHandler);
 app.postProcess(lib.serveTodo);
 app.postProcess(lib.serveStatic);
 

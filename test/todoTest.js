@@ -16,10 +16,15 @@ describe('Todo', () => {
     });
   });
   describe('#updateTitle',() => {
-    it('should change the current title', () => {
+    it('should change the current title if new title is not empty', () => {
       assert.equal(todo.getTitle(),'Daily Routine');
       todo.updateTitle('Change');
       assert.equal(todo.getTitle(),'Change');
+    });
+    it('should not change the current title if new title is empty', () => {
+      assert.equal(todo.getTitle(),'Daily Routine');
+      todo.updateTitle('');
+      assert.equal(todo.getTitle(),'Daily Routine');
     });
   });
   describe('#getDescription', ()=> {

@@ -10,7 +10,7 @@ class Todo {
     return this.title;
   }
   updateTitle(title){
-    this.title=title;
+    if (title) this.title=title;
   }
   getDescription(){
     return this.description;

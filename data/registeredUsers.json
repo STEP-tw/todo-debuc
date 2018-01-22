@@ -42,43 +42,11 @@
         ]
       },
       {
-        "title": "testing title",
+        "title": "testing todo",
         "description": "testing description",
         "items": [
           {
             "objective": "testing item 2",
-            "_isDone": false
-          }
-        ]
-      },
-      {
-        "title": "testing",
-        "description": "testting app",
-        "items": [
-          {
-            "objective": "working",
-            "_isDone": false
-          },
-          {
-            "objective": "sgdjfs",
-            "_isDone": false
-          },
-          {
-            "objective": "gdsjf",
-            "_isDone": false
-          }
-        ]
-      },
-      {
-        "title": "sort",
-        "description": "this is demo",
-        "items": [
-          {
-            "objective": "sort one.txt",
-            "_isDone": false
-          },
-          {
-            "objective": "sort -n5 one.txt",
             "_isDone": false
           }
         ]
@@ -94,6 +62,6 @@
         ]
       }
     ],
-    "sessionid": 1516452894519
+    "sessionid": 1516600675580
   }
 }

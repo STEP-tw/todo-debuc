@@ -8,7 +8,7 @@ const accumulate = (o,kv)=> {
   o[kv.key] = kv.value;
   return o;
 };
-const parseBody = text=> querystring.parse(text) || {};
+const parseBody = text=> querystring.parse(text);
 let redirect = function(path){
   console.log(`redirecting to ${path}`);
   this.statusCode = 302;
@@ -16,11 +16,7 @@ let redirect = function(path){
   this.end();
 };
 const parseCookies = text=> {
-  try {
-    return text && text.split(';').map(toKeyValue).reduce(accumulate,{}) || {};
-  }catch(e){
-    return {};
-  }
+  return text && text.split(';').map(toKeyValue).reduce(accumulate,{}) || {};
 }
 let invoke = function(req,res){
   let handler = this._handlers[req.method][req.url];

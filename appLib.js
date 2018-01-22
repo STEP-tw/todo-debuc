@@ -84,7 +84,7 @@ lib.loginPageHandler = (req,res)=>{
 lib.loginHandler = (req,res)=>{
   let user = registered_users[req.body.username];
   if(!user) {
-    res.setHeader('Set-Cookie',`message=Wrong username or password; Max-Age=5`);
+    res.setHeader('Set-Cookie',`message=Wrong username; Max-Age=5`);
     res.redirect('/login');
     return;
   }

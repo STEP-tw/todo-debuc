@@ -34,7 +34,8 @@ let getContentHeader = function(filepath){
     gif: 'image/gif',
     jpg: 'image/jpg',
     js: 'application/javascript',
-    pdf: 'application/pdf'
+    pdf: 'application/pdf',
+    png: 'image/png'
   }
   let extension = filepath.split('.')[2]||'html';
   return header[extension];

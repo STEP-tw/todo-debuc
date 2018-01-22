@@ -62,6 +62,14 @@ describe('app',()=>{
       });
     });
   });
+  describe('GET /login.html',()=>{
+    it('responds with 404',done=>{
+      request(app,{method:'GET',url:'/login.html'},(res)=>{
+        assert.equal(res.statusCode,404);
+        done();
+      });
+    });
+  });
   describe('POST /login',()=>{
     it('redirects to home for valid user',done=>{
       request(app,{method:'POST',url:'/login',body:'username=sayima'},res=>{
@@ -87,7 +95,6 @@ describe('app',()=>{
     });
     it('redirects to login if user is not present', () => {
       request(app,{method:'GET',url:'/getAllTodo'},res=>{
-        console.log(res);
         th.should_be_redirected_to(res,'/login');
       });
     });
@@ -121,6 +128,12 @@ describe('app',()=>{
   describe('POST /create',()=>{
     it('redirects to homepage if user is logged in',()=>{
       let todo = 'title=test&description=demo&items=a&items=b';
+      request(app,{method:'POST',url:'/create',user:loggedInUser,body:todo}, res=>{
+        th.should_be_redirected_to(res,'/home');
+      });
+    });
+    it('redirects to homepage if user is logged in and item is not there',()=>{
+      let todo = 'title=test&description=demo';
       request(app,{method:'POST',url:'/create',user:loggedInUser,body:todo}, res=>{
         th.should_be_redirected_to(res,'/home');
       });

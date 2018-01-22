@@ -49,7 +49,34 @@ let changeStatus = function(event){
   oReq.send(`id=${id}`);
 }
 
-let addTodoItemInPage = function(todoItems,div){
+let editListener = function(event){
+  let id = event.target.id;
+  let div = document.getElementById('todo');
+  let element = document.getElementById(id);
+  let form = addForm(element);
+  div.replaceChild(form,element);
+}
+
+let deleteListener = function(event){
+  alert(event.target.id);
+}
+
+let generateButton = function(imgSrc,id,listener){
+  let img=document.createElement('img');
+  img.src = imgSrc;
+  img.id = id;
+  img.onclick = listener;
+  return img;
+}
+
+let addEditAndDeleteButton = function(item,id){
+  let editButton = generateButton('/img/edit.png',id,editListener);
+  let deleteButton = generateButton('/img/delete.png',id,deleteListener);
+  item.appendChild(editButton);
+  item.appendChild(deleteButton);
+}
+
+let displayTodoItems = function(todoItems,div){
   let count = 0;
   todoItems.forEach((item)=>{
     let checkBox = createElement('input',count);
@@ -57,7 +84,7 @@ let addTodoItemInPage = function(todoItems,div){
     checkBox.onclick = changeStatus;
     if(item._isDone) checkBox.checked = true;
     let label = createElement('label',`label${count}`,item.objective);
-    label.ondblclick = editTodoElement;
+    addEditAndDeleteButton(label,`label${count}`);
     appendChild([checkBox,label,document.createElement('br')],div);
     count++;
   });
@@ -71,7 +98,7 @@ let reqListener = function(){
   addEventOn([heading,para],editTodoElement);
   appendChild([heading,document.createElement('br')],div);
   appendChild([para,document.createElement('br')],div);
-  addTodoItemInPage(todoData.items,div);
+  displayTodoItems(todoData.items,div);
 }
 
 let viewTodo = function(){

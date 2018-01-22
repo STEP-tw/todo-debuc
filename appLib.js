@@ -36,6 +36,13 @@ lib.loadUser = (req,res)=>{
   }
 }
 
+lib.preventTemplatesPage = (req,res)=>{
+  let urls=['/view.html','/home.html','/login.html','/create.html'];
+  if(req.urlIsOneOf(urls)){
+    handleRequest(404,res,'<h1>File Not Found!<h1>');
+  }
+}
+
 lib.redirectLoggedInUserToHome = (req,res)=>{
   if(req.url=='/login' && req.user){
     res.redirect('/home');

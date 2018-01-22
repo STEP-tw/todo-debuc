@@ -3,6 +3,7 @@ const lib = require('./appLib.js');
 
 app.use(lib.logRequest);
 app.use(lib.loadUser);
+app.use(lib.preventTemplatesPage);
 app.use(lib.redirectLoggedInUserToHome);
 app.use(lib.redirectLoggedOutUserToLogin);
 app.use(lib.deleteCookie);

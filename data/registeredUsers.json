@@ -12,7 +12,7 @@
         "description": "I have to implement all features of todo",
         "items": [
           {
-            "objective": "login page",
+            "objective": "login",
             "_isDone": true
           },
           {
@@ -38,10 +38,6 @@
           {
             "objective": "the end",
             "_isDone": true
-          },
-          {
-            "objective": "testing item",
-            "_isDone": false
           }
         ]
       },
@@ -66,6 +62,6 @@
         ]
       }
     ],
-    "sessionid": 1516606216186
+    "sessionid": 1516610262230
   }
 }

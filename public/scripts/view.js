@@ -58,7 +58,12 @@ let editListener = function(event){
 }
 
 let deleteListener = function(event){
-  alert(event.target.id);
+  let id=event.target.id;
+  id=id.split('label').pop();
+  let oReq = new XMLHttpRequest();
+  oReq.addEventListener("load",()=>window.location.reload());
+  oReq.open("POST",'/deleteitem');
+  oReq.send(`id=${id}`);
 }
 
 let generateButton = function(imgSrc,id,listener){

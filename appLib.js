@@ -57,7 +57,7 @@ lib.redirectLoggedOutUserToLogin = (req,res)=>{
 }
 
 lib.deleteCookie = (req,res)=>{
-  let urls = ['/viewTodo','/view','/editTodo','/additem','/mark','/unmark'];
+  let urls = ['/viewTodo','/view','/editTodo','/additem','/deleteitem','/mark','/unmark'];
   if(!req.urlIsOneOf(urls)){
     res.setHeader('Set-Cookie','currentTodo=-1; Max-Age=0');
   }
@@ -176,10 +176,18 @@ lib.editTodoHandler = (req,res)=>{
   res.redirect('/view');
 }
 
-lib.addItemHandler=(req,res)=>{
+lib.addItemHandler = (req,res)=>{
   let todoIndex = req.cookies.currentTodo;
   let todo = req.user.getMentionedTodo(todoIndex);
   addTodoItem(req,todo);
+  util.saveDatabase(registered_users,process.env.DATA_STORE);
+  res.redirect('/view');
+}
+
+lib.deleteItemHandler = (req,res)=>{
+  let todoIndex = req.cookies.currentTodo;
+  let todo = req.user.getMentionedTodo(todoIndex);
+  todo.removeItem(req.body.id);
   util.saveDatabase(registered_users,process.env.DATA_STORE);
   res.redirect('/view');
 }

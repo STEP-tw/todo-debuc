@@ -2,8 +2,6 @@ let User = require('./src/user.js');
 let Todo = require('./src/todo.js');
 let Item = require('./src/todoItem.js');
 
-let toS = o=>JSON.stringify(o,null,2);
-
 let loadPrototypes = function(allUsers){
   Object.keys(allUsers).forEach((user)=>{
     allUsers[user].__proto__ = new User().__proto__;
@@ -35,7 +33,7 @@ let getContentHeader = function(filepath){
     pdf: 'application/pdf',
     png: 'image/png'
   }
-  let extension = filepath.split('.')[2]||'html';
+  let extension = filepath.split('.')[2];
   return header[extension];
 }
 

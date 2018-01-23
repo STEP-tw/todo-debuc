@@ -26,7 +26,7 @@ class Todo {
     return this.items;
   }
   updateItem(objective,id){
-    this.items[id].updateObjective(objective);
+    if(objective) this.items[id].updateObjective(objective);
   }
   findItem(objective){
     return this.items.find(function(todoItem){

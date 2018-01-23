@@ -1,5 +1,3 @@
-const fs = require('fs');
-
 let User = require('./src/user.js');
 let Todo = require('./src/todo.js');
 let Item = require('./src/todoItem.js');
@@ -19,7 +17,7 @@ let loadPrototypes = function(allUsers){
   return allUsers;
 }
 
-let getAllRegisteredUsers = function(pathToFetch){
+let getAllRegisteredUsers = function(fs,pathToFetch){
   let data = fs.readFileSync(pathToFetch,'utf8');
   let allUsers = JSON.parse(data);
   allUsers = loadPrototypes(allUsers);
@@ -41,11 +39,12 @@ let getContentHeader = function(filepath){
   return header[extension];
 }
 
-let saveDatabase = function(allUsers,pathToStore){
+let saveDatabase = function(fs,allUsers,pathToStore){
   allUsers = JSON.stringify(allUsers,null,2);
   fs.writeFileSync(pathToStore,allUsers,'utf8');
 }
 
+exports.loadPrototypes = loadPrototypes;
 exports.getAllRegisteredUsers = getAllRegisteredUsers;
 exports.getContentHeader = getContentHeader;
 exports.saveDatabase = saveDatabase;

@@ -19,4 +19,8 @@ const getAllTodo = function(){
   oReq.send();
 }
 
+const gotoCreate = function(){
+  window.location = '/create';
+}
+
 window.onload = getAllTodo;

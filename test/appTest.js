@@ -1,17 +1,25 @@
 const chai = require('chai');
 const assert = chai.assert;
-const User=require('../src/user.js');
-const Todo=require('../src/todo.js');
+const path = require('path');
+const MockFileSystem=require(path.resolve('test/mockFs.js'));
+const User = require(path.resolve('src/user.js'));
+const Users = require(path.resolve('src/users.js'));
+const Todo = require(path.resolve('src/todo.js'));
 
 let request = require('./requestSimulator.js');
 let app = require('../app.js');
 let th = require('./testHelper.js');
-process.env.DATA_STORE = "./data/testStore.json";
+
+let dummyUserStore=new Users('./data/registeredUsers.json');
+let fs=new MockFileSystem();
 
 describe('app',()=>{
   let loggedInUser;
   beforeEach(()=>{
+    app.fs=fs;
+    app.userStore=dummyUserStore;
     loggedInUser = new User('sayima');
+    app.userStore.addUser('sayima');
   });
   describe('GET /bad',()=>{
     it('responds with 404',done=>{
@@ -22,29 +30,35 @@ describe('app',()=>{
     });
   });
   describe('GET /',()=>{
+    before(function(){
+      app.fs.addFile('./public/login.html','Login');
+    });
     it('serves the login page',()=>{
       request(app,{method:'GET',url:'/'},(res)=>{
         th.status_is_ok(res);
-        th.body_contains(res,'Login:');
-        th.body_does_not_contain(res,'Wrong username or password');
+        th.body_contains(res,'Login');
+        th.body_does_not_contain(res,'Wrong username');
         th.should_not_have_cookie(res,'message');
       });
     });
   });
   describe('GET /login',()=>{
+    before(function(){
+      app.fs.addFile('./public/login.html','Login message');
+    });
     it('serves the login page',()=>{
       request(app,{method:'GET',url:'/login'},res=>{
         th.status_is_ok(res);
-        th.body_contains(res,'Login:');
-        th.body_does_not_contain(res,'Wrong username or password');
+        th.body_contains(res,'Login');
+        th.body_does_not_contain(res,'Wrong username');
         th.should_not_have_cookie(res,'message');
       });
     });
     it('serves the login page with message for a failed login',()=>{
-      request(app,{method:'GET',url:'/login',headers:{'cookie':'message=Wrong username or password'}},res=>{
+      request(app,{method:'GET',url:'/login',headers:{'cookie':'message=Wrong username'}},res=>{
         th.status_is_ok(res);
-        th.body_contains(res,'Login:');
-        th.body_contains(res,'Wrong username or password');
+        th.body_contains(res,'Login');
+        th.body_contains(res,'Wrong username');
         th.should_not_have_cookie(res,'message');
       });
     });
@@ -81,7 +95,7 @@ describe('app',()=>{
     it('redirects to login with message for invalid user',()=>{
       request(app,{method:'POST',url:'/login',body:'username=badUser'},res=>{
         th.should_be_redirected_to(res,'/login');
-        th.should_have_expiring_cookie(res,'message','Wrong username or password');
+        th.should_have_expiring_cookie(res,'message','Wrong username');
       });
     });
   });
@@ -100,6 +114,9 @@ describe('app',()=>{
     });
   });
   describe('GET /home',()=>{
+    before(function(){
+      app.fs.addFile('./public/home.html','Log Out');
+    });
     it('serves the homepage if the user is logged in',()=>{
       request(app,{method:'GET',url:'/home',user:loggedInUser},res=>{
         th.status_is_ok(res);
@@ -113,6 +130,9 @@ describe('app',()=>{
     });
   });
   describe('GET /create',()=>{
+    before(function(){
+      app.fs.addFile('./public/create.html','Log Out');
+    });
     it('serves the create page if user is logged in',()=>{
       request(app,{method:'GET',url:'/create',user:loggedInUser},res=>{
         th.status_is_ok(res);
@@ -171,6 +191,9 @@ describe('app',()=>{
     });
   });
   describe('GET /view',()=>{
+    before(function(){
+      app.fs.addFile('./public/view.html','Log Out Delete');
+    });
     it('serves the todo if currentTodo cookie and user both are present',()=>{
       request(app,{method:'GET',url:'/view',user:loggedInUser, headers:{'cookie':'currentTodo=0'}},res=>{
         th.status_is_ok(res);
@@ -247,6 +270,14 @@ describe('app',()=>{
     it('edits the mentioned fields and redirects to view', () => {
       loggedInUser.addTodo('sort');
       request(app,{method:'POST',url:'/additem',headers:{'cookie':'currentTodo=0'},body:'items=test',user:loggedInUser},res=>{
+        th.should_be_redirected_to(res,'/view');
+      });
+    });
+  });
+  describe('POST /deleteitem', ()=> {
+    it('delete the mentioned item from the todo and redirects to veiw', () => {
+      loggedInUser.addTodo('sort');
+      request(app,{method:'POST',url:'/deleteitem',headers:{'cookie':'currentTodo=0'},body:'id=0',user:loggedInUser},res=>{
         th.should_be_redirected_to(res,'/view');
       });
     });

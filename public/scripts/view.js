@@ -49,14 +49,6 @@ let changeStatus = function(event){
   oReq.send(`id=${id}`);
 }
 
-let editListener = function(event){
-  let id = event.target.id;
-  let div = document.getElementById('todo');
-  let element = document.getElementById(id);
-  let form = addForm(element);
-  div.replaceChild(form,element);
-}
-
 let deleteListener = function(event){
   let id=event.target.id;
   id=id.split('label').pop();
@@ -75,7 +67,7 @@ let generateButton = function(imgSrc,id,listener){
 }
 
 let addEditAndDeleteButton = function(item,id){
-  let editButton = generateButton('/img/edit.png',id,editListener);
+  let editButton = generateButton('/img/edit.png',id,editTodoElement);
   let deleteButton = generateButton('/img/delete.png',id,deleteListener);
   item.appendChild(editButton);
   item.appendChild(deleteButton);

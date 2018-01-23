@@ -12,14 +12,6 @@
         "description": "I have to implement all features of todo",
         "items": [
           {
-            "objective": "login",
-            "_isDone": true
-          },
-          {
-            "objective": "create todo",
-            "_isDone": true
-          },
-          {
             "objective": "view todo",
             "_isDone": true
           },
@@ -46,7 +38,15 @@
         "description": "testing description",
         "items": [
           {
-            "objective": "testing item 2",
+            "objective": "gsdfj",
+            "_isDone": false
+          },
+          {
+            "objective": "kjhgfds",
+            "_isDone": false
+          },
+          {
+            "objective": "efsdfsdf",
             "_isDone": false
           }
         ]
@@ -62,6 +62,6 @@
         ]
       }
     ],
-    "sessionid": 1516610262230
+    "sessionid": 1516616741626
   }
 }

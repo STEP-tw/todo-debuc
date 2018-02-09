@@ -4,21 +4,20 @@
     <meta charset="utf-8">
     <title>View</title>
     <link rel="stylesheet" href="/css/index.css">
-    <script src="scripts/view.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="/css/hover.css">
+    <script src="/scripts/view.js" charset="utf-8"></script>
   </head>
   <body>
     <h1>
       <a href="/home"><<</a>TODO
     </h1>
     <hr>
-    <a href="/deleteTodo">
-      <button type="button">Delete</button>
-    </a>
+    <button type="button" onclick="deleteTodo()">Delete</button>
     <a id="logout" href="/logout">Log Out</a>
     <div id="todo">
-
+      todoData
     </div>
-    <form  action="/additem" method="post">
+    <form action="${:id}/additem" method="post">
       <ul id="list">
 
       </ul>

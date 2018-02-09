@@ -15,19 +15,16 @@ class User {
     this.todoLists.push(todo);
     return todo;
   }
-  get allTodos() {
-    return this.todoLists;
+  get allTodoNames() {
+    return this.todoLists.map((todo)=>todo.getTitle());
   }
   getMentionedTodo(todoIndex) {
     return this.todoLists[todoIndex];
   }
-  updateTodoTitle(index,newTitle){
+  updateTodo(index,todoInfo){
     let todo = this.getMentionedTodo(index);
-    todo.updateTitle(newTitle);
-  }
-  updateTodoDescription(index,newDescription){
-    let todo = this.getMentionedTodo(index);
-    todo.updateDescription(newDescription);
+    todo.updateTitle(todoInfo.title||todo.getTitle());
+    todo.updateDescription(todoInfo.description||todo.getDescription());
   }
   deleteTodo(todoIndex) {
     let todo = this.getMentionedTodo(todoIndex);

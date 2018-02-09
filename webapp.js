@@ -39,9 +39,6 @@ const use = function(handler){
 const postProcess = function(handler){
   this._postprocess.push(handler);
 }
-let urlIsOneOf = function(urls){
-  return urls.includes(this.url);
-}
 let handleProcess = function(req,res,processor){
   processor.forEach(middleware=>{
     if(res.finished) return;

@@ -22,21 +22,6 @@ let getAllRegisteredUsers = function(fs,pathToFetch){
   return allUsers;
 }
 
-let getContentHeader = function(filepath){
-  let header = {
-    html: 'text/html',
-    txt: 'text/plain',
-    css: 'text/css',
-    gif: 'image/gif',
-    jpg: 'image/jpg',
-    js: 'application/javascript',
-    pdf: 'application/pdf',
-    png: 'image/png'
-  }
-  let extension = filepath.split('.')[2];
-  return header[extension];
-}
-
 let saveDatabase = function(fs,allUsers,pathToStore){
   allUsers = JSON.stringify(allUsers,null,2);
   fs.writeFileSync(pathToStore,allUsers,'utf8');
@@ -44,5 +29,4 @@ let saveDatabase = function(fs,allUsers,pathToStore){
 
 exports.loadPrototypes = loadPrototypes;
 exports.getAllRegisteredUsers = getAllRegisteredUsers;
-exports.getContentHeader = getContentHeader;
 exports.saveDatabase = saveDatabase;

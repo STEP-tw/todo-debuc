@@ -8,59 +8,24 @@
     "username": "sayima",
     "todoLists": [
       {
-        "title": "todo",
-        "description": "I have to implement all features of todo",
+        "title": "todo test   ",
+        "description": "It is testing of todo ",
         "items": [
           {
-            "objective": "view todo",
+            "objective": "item 13 ",
             "_isDone": true
           },
           {
-            "objective": "edit todo",
-            "_isDone": true
-          },
-          {
-            "objective": "delete todo",
-            "_isDone": true
-          },
-          {
-            "objective": "logout",
-            "_isDone": true
+            "objective": "item 2",
+            "_isDone": false
           },
           {
             "objective": "the end",
             "_isDone": true
           }
         ]
-      },
-      {
-        "title": "testing todo",
-        "description": "testing description",
-        "items": [
-          {
-            "objective": "gsdfj",
-            "_isDone": false
-          },
-          {
-            "objective": "kjhgfds",
-            "_isDone": false
-          },
-          {
-            "objective": "efsdfsdf",
-            "_isDone": false
-          }
-        ]
-      },
-      {
-        "title": "todo",
-        "description": "it is copy of todo",
-        "items": [
-          {
-            "objective": "it will check duplication",
-            "_isDone": false
-          }
-        ]
       }
-    ]
+    ],
+    "sessionid": 1518152282382
   }
 }
